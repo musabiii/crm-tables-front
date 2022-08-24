@@ -20,6 +20,7 @@ export default function Clients() {
 
 
 
+
   const { data } = useGetClientsQuery({
     sortCol,
     order,
@@ -57,9 +58,8 @@ export default function Clients() {
   ];
 
   return (
-    <div>
-      <Link to="/">Home</Link>
-      <Search />
+    <div className="client page">
+      <Link to="/" className="home-link">Home</Link>
       <Filter
         columns={columns}
         filterCol={filterCol}

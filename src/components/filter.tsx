@@ -23,12 +23,21 @@ export const Filter: FC<FilterProps> = ({
   const [debounceValue, setDebounceValue] = useState(filterValue);
 
   const handleChangeCol = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.currentTarget.value === 'id' && filterCompare === 'like') {
+      setFilterCompare('=')
+    }
     setFilterCol(e.currentTarget.value);
   };
 
-  const handleChangeCompare = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterCompare(e.currentTarget.value);
+  const handleChangeCompare = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.currentTarget.checked)
+    if (e.currentTarget.checked) {
+      setFilterCompare('=');
+    } else {
+      setFilterCompare('like')
+    }
   };
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -59,16 +68,7 @@ export const Filter: FC<FilterProps> = ({
         ))}
       </select>
 
-      <select
-        title="compare"
-        value={filterCompare}
-        name="compare"
-        id="compare"
-        onChange={handleChangeCompare}
-      >
-        <option value="=">eq</option>
-        <option value="like">like</option>
-      </select>
+
       <input
         value={debounceValue}
         type="search"
@@ -77,6 +77,8 @@ export const Filter: FC<FilterProps> = ({
         title="title"
         onChange={handleChangeValue}
       />
+      <input disabled={filterCol==='id'} checked={filterCompare === '='} type="checkbox" title="equal" id="equal" onChange={handleChangeCompare}/>
+      <label htmlFor="equal">exact match</label>
     </div>
   );
 };

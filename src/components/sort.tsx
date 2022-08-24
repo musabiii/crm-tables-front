@@ -20,12 +20,19 @@ export const Sort: FC<SortProps> = ({
     setSortCol(e.currentTarget.value);
   };
 
-  const handleChangeOrder = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChangeOrder = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOrder(e.currentTarget.value);
+
+    if (e.currentTarget.checked) {
+      setOrder('desc');
+    } else {
+      setOrder('asc')
+    }
   };
 
   return (
     <div>
+      <label className="label-order" htmlFor="column"> order by:</label>
       <select
         title="column"
         value={sortCol}
@@ -38,16 +45,8 @@ export const Sort: FC<SortProps> = ({
         ))}
       </select>
 
-      <select
-        title="sort"
-        value={order}
-        name="sort"
-        id="sort"
-        onChange={handleChangeOrder}
-      >
-        <option value={EOrder.asc}>ascending</option>
-        <option value={EOrder.desc}>descending</option>
-      </select>
+      <input checked={order === 'desc'} type="checkbox" title="equal" id="order" onChange={handleChangeOrder}/>
+      <label htmlFor="order">desc</label>
     </div>
   );
 };

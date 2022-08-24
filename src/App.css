@@ -1,16 +1,55 @@
+@import url(https://fonts.googleapis.com/css?family=Maven+Pro:regular,500,600,700,800,900);
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+body {
+  font-family: 'Maven Pro',Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  color: #696969;
+}
+
 table {
   border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.data-table {
+  text-align: center;
+}
+
+.page {
+  width: 50%;
+  margin: 0 auto;
 }
 
 table tr td{
   border: 1px solid black;
   padding: 5px;
+}
+
+table thead {
+  background-color: #eee;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.table-row:hover {
+  background-color: #eee;
+  cursor: pointer;
+}
+
+.table-row-selected {
+  background-color: #eee;
+  font-weight: 600;
+
+}
+
+.label-order {
+  margin: 3px;
 }
 
 .pagination {
@@ -28,3 +67,32 @@ table tr td{
   width: 50px;
   text-align: center;
 }
+
+.home-link {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+input,select {
+  padding: 2px;
+  margin: 3px 5px;
+  outline: none;
+  border: none;
+  border-bottom: #898989 solid 1px;
+}
+
+.actions {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+  color: #696969;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.action:hover {
+  color: black;
+}
+
+

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { IColumn } from "../models/models";
 
 interface IDataTable {
@@ -7,9 +7,25 @@ interface IDataTable {
 }
 
 export default function DataTable({ data, columns }: IDataTable) {
+
+  const [selectedRow,setSelectedRow] = useState(0)
+
+  const handleClickRow = (e:React.MouseEvent<HTMLTableRowElement>,id:number) => {
+    console.log(e.detail);
+    if (e.detail === 2) {
+
+    }
+
+    if (id===selectedRow) {
+      setSelectedRow(0)
+    } else {
+      setSelectedRow(id)
+    }
+  }
+
   return (
-    <div>
-      <table>
+    <div className="data-table">
+      <table >
         <thead>
           <tr>
             {columns.map(
@@ -20,7 +36,7 @@ export default function DataTable({ data, columns }: IDataTable) {
         <tbody>
           {data.map((row) => {
             return (
-              <tr key={row.id}>
+              <tr key={row.id} className={`table-row ${selectedRow===row.id?"table-row-selected":""}`} onClick={(e)=>handleClickRow(e,row.id)}>
                 {columns.map((col) => {
                   return (
                     col.visible && <td key={col.title}>{row[col.title]}</td>
