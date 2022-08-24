@@ -1,22 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Actions from "../components/actions";
 import DataTable from "../components/data-table";
-import Filter from "../components/filter";
-import Pagination from "../components/pagination";
+import { Filter } from "../components/filter";
+import { Pagination } from "../components/pagination";
 import Search from "../components/search";
-import { useGetClientsQuery, useLazyGetClientsQuery } from "../store/crm.api";
-import {IColumn} from '../models/models'
-import Sort from "../components/sort";
+import { useGetClientsQuery } from "../store/crm.api";
+import { EOrder, IColumn } from "../models/models";
+import { Sort } from "../components/sort";
 
 export default function Clients() {
-  // const [fetchClients, { data, isFetching }] = useLazyGetClientsQuery();
+  const [sortCol, setSortCol] = useState("id");
+  const [order, setOrder] = useState<EOrder>(EOrder.asc);
+  const [filterCol, setFilterCol] = useState("id");
+  const [filterCompare, setFilterCompare] = useState("=");
+  const [filterValue, setFilterValue] = useState("");
 
-  const { data } = useGetClientsQuery(null);
+  const [page, setPage] = useState(1);
 
 
 
-  const columns:IColumn[] = [
+  const { data } = useGetClientsQuery({
+    sortCol,
+    order,
+    filterCol,
+    filterCompare,
+    filterValue,
+    page,
+  });
+
+  const columns: IColumn[] = [
     {
       title: "id",
       visible: true,
@@ -47,14 +60,25 @@ export default function Clients() {
     <div>
       <Link to="/">Home</Link>
       <Search />
-      <Filter />
-      <Sort/>
-      <Actions />
-      <DataTable
-        data={data ?? []}
+      <Filter
+        columns={columns}
+        filterCol={filterCol}
+        filterCompare={filterCompare}
+        filterValue={filterValue}
+        setFilterCol={setFilterCol}
+        setFilterCompare={setFilterCompare}
+        setFilterValue={setFilterValue}
+      />
+      <Sort
+        sortCol={sortCol}
+        order={order}
+        setSortCol={setSortCol}
+        setOrder={setOrder}
         columns={columns}
       />
-      <Pagination />
+      <Actions />
+      <DataTable data={data ?? []} columns={columns} />
+      <Pagination page={page} setPage={setPage} />
     </div>
   );
 }

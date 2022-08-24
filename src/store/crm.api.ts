@@ -1,19 +1,18 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IClient } from "../models/models";
+import { IClient, IQuery } from "../models/models";
 
 export const crmApi = createApi({
   reducerPath: "crm/api",
   baseQuery: fetchBaseQuery({
     // baseUrl: "http://89.108.98.131:3000/api/",
     baseUrl: "http://localhost:4000/api/",
-    // baseUrl: "https://jsonplaceholder.typicode.com/",
-    // mode: "no-cors",
   }),
   endpoints: (build) => ({
-    getClients: build.query<IClient[],null>({
-      query: () => ({
+    getClients: build.query<IClient[],IQuery>({
+      query: (query) => ({
         // url: `/comments/?id=1`,
         url: `/client`,
+        params: query
       }),
     }),
     getClient:build.query<any,number>({

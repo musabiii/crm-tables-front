@@ -12,3 +12,19 @@ table tr td{
   border: 1px solid black;
   padding: 5px;
 }
+
+.pagination {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+  text-align: center;
+  justify-content: center;
+}
+
+.pagination-btn {
+  cursor: pointer;
+  border: 1px solid #696969;
+  padding: 2px;
+  width: 50px;
+  text-align: center;
+}
