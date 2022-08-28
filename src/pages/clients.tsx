@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Actions from "../components/actions";
+import { Actions } from "../components/actions";
 import DataTable from "../components/data-table";
 import { Filter } from "../components/filter";
 import { Pagination } from "../components/pagination";
@@ -18,7 +18,32 @@ export default function Clients() {
 
   const [page, setPage] = useState(1);
 
+  const [infinityScroll, setInfinityScroll] = useState<boolean>(false);
 
+  useEffect(()=>{
+
+    // const dt = document.querySelector('.data-table');
+    // console.log("dt",dt)
+
+    const dt = document.body;
+
+    if (dt) {
+
+        dt.addEventListener("scroll", () => {
+          console.log("clientHeight", dt?.clientHeight);
+          console.log("scrollHeight", dt?.scrollHeight);
+          if (
+            dt?.scrollTop || 0 + (dt?.clientHeight || 0) + 100 >=
+            (dt?.scrollHeight || 0)
+          ) {
+            console.log("scroll more");
+          }
+        });
+
+    }
+
+
+  },[])
 
 
   const { data } = useGetClientsQuery({
@@ -30,7 +55,17 @@ export default function Clients() {
     page,
   });
 
-  const columns: IColumn[] = [
+  const [list, setList] = useState(data);
+
+  useEffect(() => {
+    if (infinityScroll) {
+      setList([...(list || []), ...(data || [])]);
+    } else {
+      setList(data);
+    }
+  }, [data]);
+
+  const columnsList: IColumn[] = [
     {
       title: "id",
       visible: true,
@@ -57,9 +92,21 @@ export default function Clients() {
     },
   ];
 
+  const [columns, setColumns] = useState<IColumn[]>(columnsList);
+
+  const changeVisible = (col: IColumn) => {
+    setColumns((cols) => {
+      const index = cols.findIndex((el) => el.title === col.title);
+      cols[index] = col;
+      return [...cols];
+    });
+  };
+
   return (
     <div className="client page">
-      <Link to="/" className="home-link">Home</Link>
+      <Link to="/" className="home-link">
+        Home
+      </Link>
       <Filter
         columns={columns}
         filterCol={filterCol}
@@ -76,8 +123,8 @@ export default function Clients() {
         setOrder={setOrder}
         columns={columns}
       />
-      <Actions />
-      <DataTable data={data ?? []} columns={columns} />
+      <Actions columns={columns} changeVisible={changeVisible} />
+      <DataTable data={list ?? []} columns={columns} />
       <Pagination page={page} setPage={setPage} />
     </div>
   );

@@ -10,6 +10,8 @@ export default function DataTable({ data, columns }: IDataTable) {
 
   const [selectedRow,setSelectedRow] = useState(0)
 
+  // const [list,setList] = useState(data);
+
   const handleClickRow = (e:React.MouseEvent<HTMLTableRowElement>,id:number) => {
     console.log(e.detail);
     if (e.detail === 2) {

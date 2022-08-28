@@ -7,7 +7,7 @@
 }
 
 body {
-  font-family: 'Maven Pro',Arial, Helvetica, sans-serif;
+  font-family: "Maven Pro", Arial, Helvetica, sans-serif;
   font-size: 18px;
   color: #696969;
 }
@@ -19,14 +19,16 @@ table {
 
 .data-table {
   text-align: center;
+  height: 75vh;
+  overflow-y: scroll;
 }
 
 .page {
-  width: 50%;
+  width: 80%;
   margin: 0 auto;
 }
 
-table tr td{
+table tr td {
   border: 1px solid black;
   padding: 5px;
 }
@@ -44,8 +46,8 @@ table thead {
 
 .table-row-selected {
   background-color: #eee;
-  font-weight: 600;
-
+  /* font-weight: 600; */
+  color: black;
 }
 
 .label-order {
@@ -74,7 +76,8 @@ table thead {
   font-size: 24px;
 }
 
-input,select {
+input,
+select {
   padding: 2px;
   margin: 3px 5px;
   outline: none;
@@ -95,4 +98,38 @@ input,select {
   color: black;
 }
 
+.columns-visible-back {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  opacity: .5;
+  z-index: 0;
+}
 
+.columns-visible-box {
+  position: absolute;
+
+  width: 200px;
+  background-color: #fff;
+  border: #696969 1px solid;
+  padding: 20px;
+  cursor: auto;
+  opacity: 2;
+  z-index: 6;
+}
+
+.columns-visible .exit-flex {
+  display: flex;
+  justify-content: flex-end;
+  color: red;
+}
+.columns-visible .exit-flex .exit-btn {
+  cursor: pointer;
+}
+
+.columns-visible .exit-flex .exit-btn:hover {
+  color: darkred;
+}
