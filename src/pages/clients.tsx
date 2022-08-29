@@ -5,7 +5,7 @@ import DataTable from "../components/data-table";
 import { Filter } from "../components/filter";
 import { Pagination } from "../components/pagination";
 import { useGetClientsQuery, useLazyGetClientsQuery } from "../store/crm.api";
-import { EOrder, IColumn } from "../models/models";
+import { EOrder, IClient, IColumn } from "../models/models";
 import { Sort } from "../components/sort";
 
 export default function Clients() {
@@ -15,9 +15,13 @@ export default function Clients() {
   const [filterCompare, setFilterCompare] = useState("=");
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState<number>(1);
-  const pageRef = useRef(page)
   const [infinityScroll, setInfinityScroll] = useState<boolean>(false);
 
+  const [fetchClients, { data }] = useLazyGetClientsQuery();
+
+  const [listened, setListened] = useState(false);
+
+  const [list, setList] = useState(data);
 
   const fetchOptions = () => {
     return {
@@ -30,88 +34,78 @@ export default function Clients() {
     };
   };
 
-  // const { data } = useGetClientsQuery({
-  //   sortCol,
-  //   order,
-  //   filterCol,
-  //   filterCompare,
-  //   filterValue,
-  //   page,
-  // });
+  //* update fetch
+  useEffect(() => {
+    console.log("use effect [fetch]");
+    fetchClients(fetchOptions());
+  }, [sortCol, order, filterCol, filterCompare, filterValue]);
 
-  const [fetchClients, { data }] = useLazyGetClientsQuery();
-
-
-
-
-
-
-
+  //* mount
   useEffect(() => {
     fetchClients(fetchOptions());
-
-    // const dt = document.querySelector(".data-table");
-
-    // const listener = () => {
-
-    //   if (
-    //     (dt?.scrollTop || 0) + (dt?.clientHeight || 0) +20 >=
-    //     (dt?.scrollHeight || 0)
-    //     ) {
-    //       console.log("scroll more");
-    //     setPage(page + 1);
-    //   }
-    // };
-
-
-    // console.log(dt)
-    // dt?.addEventListener('scroll',listener)
-
   }, []);
-    const dt = document.querySelector(".data-table");
 
-    const listener = () => {
+  const dt = document.querySelector(".data-table");
 
-      if (
-        (dt?.scrollTop || 0) + (dt?.clientHeight || 0) +20 >=
-        (dt?.scrollHeight || 0)
-        ) {
-          console.log("scroll more");
-        setPage(page + 1);
-      }
-    };
+  function listener() {
+    if (
+      (dt?.scrollTop || 0) + (dt?.clientHeight || 0) + 20 >=
+      (dt?.scrollHeight || 0)
+    ) {
+      console.log("scroll more", page + 1);
+      setPage(page + 1);
+    }
+  }
 
-
+  //*  [page]
   useEffect(() => {
+    console.log("use effect [page]");
     if (!infinityScroll) {
       setList([]);
+      dt?.scrollTo(0, 0);
     }
     fetchClients(fetchOptions());
-
+    console.log(dt);
     if (dt && infinityScroll) {
       setTimeout(() => {
+        console.log("set listener");
         dt.addEventListener("scroll", listener);
       }, 300);
     }
 
     return () => {
       dt?.removeEventListener("scroll", listener);
-      console.log('destroy')
+      console.log("destroy");
     };
   }, [page]);
 
-  const handleChangeInfinityScroll = () => {
-    if (page !== 1) {
-      setList([]);
-      setPage(1);
+  //* [infinityScroll]
+  useEffect(() => {
+    if (dt && infinityScroll) {
+      dt.addEventListener("scroll", listener);
+    } else if (dt && !infinityScroll) {
+      console.log("remove listener");
     }
 
+    return () => {
+      dt?.removeEventListener("scroll", listener);
+    };
+  }, [infinityScroll]);
+
+  const handleChangeInfinityScroll = () => {
+    if (page !== 1) {
+      if (infinityScroll) {
+        setList([]);
+      }
+      console.log("handleChangeInfinityScroll");
+      setPage(1);
+    }
+    dt?.scrollTo(0, 0);
     setInfinityScroll(!infinityScroll);
   };
 
-  const [list, setList] = useState(data);
-
   useEffect(() => {
+    console.log("useEffect [data]", data);
     if (infinityScroll) {
       setList([...(list || []), ...(data || [])]);
     } else {
@@ -119,7 +113,9 @@ export default function Clients() {
     }
   }, [data]);
 
-
+  useEffect(() => {
+    console.log("change list", list);
+  }, [list]);
 
   const columnsList: IColumn[] = [
     {
@@ -172,15 +168,15 @@ export default function Clients() {
         setFilterCompare={setFilterCompare}
         setFilterValue={setFilterValue}
       />
-      <Sort
-        sortCol={sortCol}
+      <Actions columns={columns} changeVisible={changeVisible} />
+      <DataTable
+        data={list ?? []}
+        columns={columns}
         order={order}
+        sortCol={sortCol}
         setSortCol={setSortCol}
         setOrder={setOrder}
-        columns={columns}
       />
-      <Actions columns={columns} changeVisible={changeVisible} />
-      <DataTable data={list ?? []} columns={columns} />
       <Pagination
         page={page}
         setPage={setPage}

@@ -53,7 +53,7 @@ export const Filter: FC<FilterProps> = ({
   };
 
   return (
-    <div>
+    <div className="filter">
       <select
         title="column"
         value={filterCol}

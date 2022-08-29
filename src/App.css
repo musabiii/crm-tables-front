@@ -37,6 +37,7 @@ table thead {
   background-color: #eee;
   font-weight: 700;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .table-row:hover {
@@ -144,4 +145,18 @@ select {
 
 .columns-visible .exit-flex .exit-btn:hover {
   color: darkred;
+}
+
+.sort-block {
+  cursor: pointer;
+}
+
+.arr-ordered {
+  font-weight: 7000;
+  color: red;
+}
+
+
+.filter {
+  text-align: center;
 }
