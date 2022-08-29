@@ -56,10 +56,22 @@ table thead {
 
 .pagination {
   display: flex;
+  justify-content: center;
+  text-align: center;
+align-items: center;
+}
+
+.pagination-box {
+  display: flex;
   gap: 5px;
   margin-top: 10px;
   text-align: center;
   justify-content: center;
+}
+
+.pagination-disabled {
+  pointer-events: none;
+  opacity: .4;
 }
 
 .pagination-btn {

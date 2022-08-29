@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Actions } from "../components/actions";
 import DataTable from "../components/data-table";
 import { Filter } from "../components/filter";
 import { Pagination } from "../components/pagination";
-import Search from "../components/search";
-import { useGetClientsQuery } from "../store/crm.api";
+import { useGetClientsQuery, useLazyGetClientsQuery } from "../store/crm.api";
 import { EOrder, IColumn } from "../models/models";
 import { Sort } from "../components/sort";
 
@@ -15,45 +14,100 @@ export default function Clients() {
   const [filterCol, setFilterCol] = useState("id");
   const [filterCompare, setFilterCompare] = useState("=");
   const [filterValue, setFilterValue] = useState("");
-
-  const [page, setPage] = useState(1);
-
+  const [page, setPage] = useState<number>(1);
+  const pageRef = useRef(page)
   const [infinityScroll, setInfinityScroll] = useState<boolean>(false);
 
-  useEffect(()=>{
 
-    // const dt = document.querySelector('.data-table');
-    // console.log("dt",dt)
+  const fetchOptions = () => {
+    return {
+      sortCol,
+      order,
+      filterCol,
+      filterCompare,
+      filterValue,
+      page,
+    };
+  };
 
-    const dt = document.body;
+  // const { data } = useGetClientsQuery({
+  //   sortCol,
+  //   order,
+  //   filterCol,
+  //   filterCompare,
+  //   filterValue,
+  //   page,
+  // });
 
-    if (dt) {
+  const [fetchClients, { data }] = useLazyGetClientsQuery();
 
-        dt.addEventListener("scroll", () => {
-          console.log("clientHeight", dt?.clientHeight);
-          console.log("scrollHeight", dt?.scrollHeight);
-          if (
-            dt?.scrollTop || 0 + (dt?.clientHeight || 0) + 100 >=
-            (dt?.scrollHeight || 0)
-          ) {
-            console.log("scroll more");
-          }
-        });
 
+
+
+
+
+
+  useEffect(() => {
+    fetchClients(fetchOptions());
+
+    // const dt = document.querySelector(".data-table");
+
+    // const listener = () => {
+
+    //   if (
+    //     (dt?.scrollTop || 0) + (dt?.clientHeight || 0) +20 >=
+    //     (dt?.scrollHeight || 0)
+    //     ) {
+    //       console.log("scroll more");
+    //     setPage(page + 1);
+    //   }
+    // };
+
+
+    // console.log(dt)
+    // dt?.addEventListener('scroll',listener)
+
+  }, []);
+    const dt = document.querySelector(".data-table");
+
+    const listener = () => {
+
+      if (
+        (dt?.scrollTop || 0) + (dt?.clientHeight || 0) +20 >=
+        (dt?.scrollHeight || 0)
+        ) {
+          console.log("scroll more");
+        setPage(page + 1);
+      }
+    };
+
+
+  useEffect(() => {
+    if (!infinityScroll) {
+      setList([]);
+    }
+    fetchClients(fetchOptions());
+
+    if (dt && infinityScroll) {
+      setTimeout(() => {
+        dt.addEventListener("scroll", listener);
+      }, 300);
     }
 
+    return () => {
+      dt?.removeEventListener("scroll", listener);
+      console.log('destroy')
+    };
+  }, [page]);
 
-  },[])
+  const handleChangeInfinityScroll = () => {
+    if (page !== 1) {
+      setList([]);
+      setPage(1);
+    }
 
-
-  const { data } = useGetClientsQuery({
-    sortCol,
-    order,
-    filterCol,
-    filterCompare,
-    filterValue,
-    page,
-  });
+    setInfinityScroll(!infinityScroll);
+  };
 
   const [list, setList] = useState(data);
 
@@ -64,6 +118,8 @@ export default function Clients() {
       setList(data);
     }
   }, [data]);
+
+
 
   const columnsList: IColumn[] = [
     {
@@ -125,7 +181,12 @@ export default function Clients() {
       />
       <Actions columns={columns} changeVisible={changeVisible} />
       <DataTable data={list ?? []} columns={columns} />
-      <Pagination page={page} setPage={setPage} />
+      <Pagination
+        page={page}
+        setPage={setPage}
+        infinityScroll={infinityScroll}
+        handleChangeInfinityScroll={handleChangeInfinityScroll}
+      />
     </div>
   );
 }
