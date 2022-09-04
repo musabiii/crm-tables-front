@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Actions } from "../components/actions";
 import DataTable from "../components/data-table";
-import { IColumn } from "../models/models";
+import { EClientColumns, IClient, IColumn, TClient } from "../models/models";
 import { useLazyGetClientsQuery } from "../store/crm.api";
 
 export default function Clients() {
@@ -38,6 +38,7 @@ export default function Clients() {
 
   const [columns, setColumns] = useState<IColumn[]>(columnsList);
 
+
   const changeVisible = (col: IColumn) => {
     setColumns((cols) => {
       const index = cols.findIndex((el) => el.title === col.title);
@@ -54,9 +55,9 @@ export default function Clients() {
         Home
       </Link>
       <Actions columns={columns} changeVisible={changeVisible} />
-      <DataTable
+      <DataTable<IClient,TClient>
         columns={columns}
-        lazyFetch = {useLazyGetClientsQuery}
+        // lazyFetch = {useLazyGetClientsQuery}
         fetchData = {fetchData}
         data = {data??[]}
       />
@@ -64,3 +65,4 @@ export default function Clients() {
     </div>
   );
 }
+

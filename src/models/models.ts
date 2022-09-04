@@ -1,11 +1,26 @@
-export interface IClient {
-  id: number;
-  title: string;
+
+export interface IClient extends IRowBase {
   inn: string;
   phone: string;
   mail: string;
   address: string;
 }
+
+export interface IRowBase {
+  id: number;
+  title: string;
+}
+
+export enum EClientColumns {
+  id = "id",
+  title = "title",
+  inn = "inn",
+  phone = "phone",
+  mail= "mail",
+  address= "address",
+}
+
+export type TClient = 'id' | 'title' | 'inn' | 'phone' | 'mail' | 'address';
 
 export interface IService {
   id: number;
@@ -57,3 +72,4 @@ export enum ECompare {
   eq='=',
   like = 'like'
 }
+
