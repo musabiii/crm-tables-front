@@ -6,7 +6,7 @@ import { Pagination } from "./pagination";
 interface IDataTable<D> {
   columns: IColumn[];
   fetchData: Function;
-  data: D[];
+  data: any[];
 }
 
 
