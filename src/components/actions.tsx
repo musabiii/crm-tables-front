@@ -7,9 +7,10 @@ interface ActionsProps {
   columns: IColumn[];
   changeVisible:Function
   handleShowModal:Function
+  obj:object
 }
 
-export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModal }) => {
+export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModal,obj }) => {
   const [showColumns, setShowColumns] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -18,8 +19,8 @@ export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModa
   };
 
   const handleOpen = () => {
-    // setShowModal(!showModal);
-    handleShowModal()
+    // setShowModal(!show
+    setShowModal(!showModal)
   }
 
   return (
@@ -36,7 +37,7 @@ export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModa
       </div>
 
       {showColumns && <ColumnsVisible columns={columns} changeVisible={changeVisible} setShowColumns = {setShowColumns} />}
-      {showModal && <Modal/>}
+      {showModal && <Modal setShowModal={setShowModal} obj={obj}/>}
     </div>
   );
 };

@@ -16,6 +16,8 @@ export default function DataTable(props: IDataTable): JSX.Element {
   const { columns, fetchData, data, changeVisibleColumns } = props;
 
   const [selectedRow, setSelectedRow] = useState(0);
+  const [selectedRowObj, setSelectedRowObj] = useState({});
+
   const [sortCol, setSortCol] = useState("id");
   const [order, setOrder] = useState<EOrder>(EOrder.asc);
   const [filterCol, setFilterCol] = useState("id");
@@ -23,7 +25,6 @@ export default function DataTable(props: IDataTable): JSX.Element {
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState<number>(1);
   const [showModal, setShowModal] = useState(false);
-
 
   const fetchOptions = () => {
     return {
@@ -51,6 +52,15 @@ export default function DataTable(props: IDataTable): JSX.Element {
     }
     return null;
   };
+
+  useEffect(() => {
+    if (selectedRow) {
+      const selectedObj = data.find((el) => el.id === selectedRow);
+      setSelectedRowObj(selectedObj);
+    } else {
+      setSelectedRowObj({});
+    }
+  }, [selectedRow]);
 
   const handleClickRow = (
     e: React.MouseEvent<HTMLTableRowElement>,
@@ -80,13 +90,18 @@ export default function DataTable(props: IDataTable): JSX.Element {
   };
 
   const handleShowModal = () => {
-    setShowModal(!showModal)
-  }
+    setShowModal(!showModal);
+  };
 
   return (
     <div>
-      <Actions columns={columns} changeVisible={changeVisibleColumns} handleShowModal = {handleShowModal}/>
-      {showModal && <Modal/>}
+      <Actions
+        columns={columns}
+        changeVisible={changeVisibleColumns}
+        handleShowModal={handleShowModal}
+        obj = {selectedRowObj}
+      />
+      {/* {showModal && <Modal/>} */}
       <Filter
         columns={columns}
         filterCol={filterCol}

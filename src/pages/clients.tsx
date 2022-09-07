@@ -54,7 +54,7 @@ export default function Clients() {
       <Link to="/" className="home-link">
         Home
       </Link>
-      <Actions columns={columns} changeVisible={changeVisible} handleShowModal = {()=>{}}/>
+      {/* <Actions columns={columns} changeVisible={changeVisible} handleShowModal = {()=>{}}/> */}
       <DataTable
         columns={columns}
         // lazyFetch = {useLazyGetClientsQuery}
