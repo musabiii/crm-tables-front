@@ -6,9 +6,10 @@ import { Modal } from "./modal";
 interface ActionsProps {
   columns: IColumn[];
   changeVisible:Function
+  handleShowModal:Function
 }
 
-export const Actions: FC<ActionsProps> = ({ columns,changeVisible }) => {
+export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModal }) => {
   const [showColumns, setShowColumns] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -17,7 +18,8 @@ export const Actions: FC<ActionsProps> = ({ columns,changeVisible }) => {
   };
 
   const handleOpen = () => {
-    setShowModal(!showModal);
+    // setShowModal(!showModal);
+    handleShowModal()
   }
 
   return (

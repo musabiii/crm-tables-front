@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { EOrder, IColumn, IRowBase } from "../models/models";
+import { Actions } from "./actions";
 import { Filter } from "./filter";
+import { Modal } from "./modal";
 import { Pagination } from "./pagination";
 
 interface IDataTable {
   columns: IColumn[];
   fetchData: Function;
   data: any[];
+  changeVisibleColumns: Function;
 }
 
-
-
 export default function DataTable(props: IDataTable): JSX.Element {
-
-  const { columns, fetchData, data } = props;
-
+  const { columns, fetchData, data, changeVisibleColumns } = props;
 
   const [selectedRow, setSelectedRow] = useState(0);
   const [sortCol, setSortCol] = useState("id");
@@ -23,6 +22,8 @@ export default function DataTable(props: IDataTable): JSX.Element {
   const [filterCompare, setFilterCompare] = useState("=");
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState<number>(1);
+  const [showModal, setShowModal] = useState(false);
+
 
   const fetchOptions = () => {
     return {
@@ -56,6 +57,9 @@ export default function DataTable(props: IDataTable): JSX.Element {
     id: number
   ) => {
     console.log(e.detail);
+    console.log(e.currentTarget);
+    const selectObj = data.find((el) => el.id === id);
+    console.log(selectObj);
     if (e.detail === 2) {
     }
 
@@ -75,8 +79,14 @@ export default function DataTable(props: IDataTable): JSX.Element {
     }
   };
 
+  const handleShowModal = () => {
+    setShowModal(!showModal)
+  }
+
   return (
     <div>
+      <Actions columns={columns} changeVisible={changeVisibleColumns} handleShowModal = {handleShowModal}/>
+      {showModal && <Modal/>}
       <Filter
         columns={columns}
         filterCol={filterCol}
