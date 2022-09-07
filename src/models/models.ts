@@ -43,18 +43,6 @@ export interface IColumn {
   visible:boolean
 }
 
-// export interface IFilter {
-//   column:string,
-//   compare:string,
-//   value:string
-// }
-
-// export interface ISort {
-//   column:string,
-//   order:string
-// }
-
-
 export enum EOrder {
   asc = 'asc',
   desc = 'desc'

@@ -3,7 +3,7 @@ import { EOrder, IColumn, IRowBase } from "../models/models";
 import { Filter } from "./filter";
 import { Pagination } from "./pagination";
 
-interface IDataTable<D> {
+interface IDataTable {
   columns: IColumn[];
   fetchData: Function;
   data: any[];
@@ -11,7 +11,7 @@ interface IDataTable<D> {
 
 
 
-export default function DataTable<D extends IRowBase>(props: IDataTable<D>): JSX.Element {
+export default function DataTable(props: IDataTable): JSX.Element {
 
   const { columns, fetchData, data } = props;
 
@@ -94,13 +94,13 @@ export default function DataTable<D extends IRowBase>(props: IDataTable<D>): JSX
               {columns.map(
                 (col) =>
                   col.visible && (
-                    <td
+                    <th
                       onClick={() => handleSetSort(col.title)}
                       key={col.title}
                     >
                       {col.title}
                       <SortBlock sortType={sortType(col.title)} />
-                    </td>
+                    </th>
                   )
               )}
             </tr>

@@ -1,6 +1,7 @@
 import React, { FC, useState } from "react";
 import { IColumn } from "../models/models";
 import { ColumnsVisible } from "./columns-visible";
+import { Modal } from "./modal";
 
 interface ActionsProps {
   columns: IColumn[];
@@ -9,14 +10,22 @@ interface ActionsProps {
 
 export const Actions: FC<ActionsProps> = ({ columns,changeVisible }) => {
   const [showColumns, setShowColumns] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleVisible = () => {
     setShowColumns(!showColumns);
   };
 
+  const handleOpen = () => {
+    setShowModal(!showModal);
+  }
+
   return (
     <div className="actions">
-      <div className="open-action action">open</div>
+      <div
+      className="open-action action"
+      onClick={handleOpen}
+      >open</div>
       <div className="edit-action action">edit</div>
       <div className="create-action action">create</div>
 
@@ -25,6 +34,7 @@ export const Actions: FC<ActionsProps> = ({ columns,changeVisible }) => {
       </div>
 
       {showColumns && <ColumnsVisible columns={columns} changeVisible={changeVisible} setShowColumns = {setShowColumns} />}
+      {showModal && <Modal/>}
     </div>
   );
 };

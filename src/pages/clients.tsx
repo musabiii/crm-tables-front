@@ -55,7 +55,7 @@ export default function Clients() {
         Home
       </Link>
       <Actions columns={columns} changeVisible={changeVisible} />
-      <DataTable<IClient>
+      <DataTable
         columns={columns}
         // lazyFetch = {useLazyGetClientsQuery}
         fetchData = {fetchData}

@@ -15,20 +15,31 @@ body {
 table {
   border-collapse: collapse;
   margin: 0 auto;
+  position: relative;
 }
 
-.data-table {
+/* .data-table {
   text-align: center;
   height: 75vh;
   overflow-y: scroll;
+} */
+
+.data-table th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  border: 1px solid black;
+  padding: 5px;
+  background-color: #eee;
 }
+
 
 .page {
   width: 80%;
   margin: 0 auto;
 }
 
-table tr td {
+table tr td,th {
   border: 1px solid black;
   padding: 5px;
 }
