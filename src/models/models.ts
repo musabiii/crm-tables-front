@@ -61,3 +61,9 @@ export enum ECompare {
   like = 'like'
 }
 
+export enum EActionType {
+  open='open',
+  edit = 'edit',
+  create = 'create'
+}
+

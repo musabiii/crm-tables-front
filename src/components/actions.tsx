@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { IColumn } from "../models/models";
+import { EActionType, IColumn } from "../models/models";
 import { ColumnsVisible } from "./columns-visible";
 import { Modal } from "./modal";
 
@@ -13,6 +13,7 @@ interface ActionsProps {
 export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModal,obj }) => {
   const [showColumns, setShowColumns] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [actionType, setActionType] = useState<EActionType>(EActionType.open);
 
   const handleVisible = () => {
     setShowColumns(!showColumns);
@@ -20,7 +21,18 @@ export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModa
 
   const handleOpen = () => {
     // setShowModal(!show
-    setShowModal(!showModal)
+    setActionType(EActionType.open)
+    setShowModal(true)
+  }
+
+  const handleEdit = () => {
+    setActionType(EActionType.edit)
+    setShowModal(true)
+  }
+
+  const handleCreate = () => {
+    setActionType(EActionType.create)
+    setShowModal(true)
   }
 
   return (
@@ -29,15 +41,15 @@ export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModa
       className="open-action action"
       onClick={handleOpen}
       >open</div>
-      <div className="edit-action action">edit</div>
-      <div className="create-action action">create</div>
+      <div className="edit-action action"  onClick={handleEdit}>edit</div>
+      <div className="create-action action" onClick={handleCreate}>create</div>
 
       <div className="visible-action action" onClick={handleVisible}>
         columns
       </div>
 
       {showColumns && <ColumnsVisible columns={columns} changeVisible={changeVisible} setShowColumns = {setShowColumns} />}
-      {showModal && <Modal setShowModal={setShowModal} obj={obj}/>}
+      {showModal && <Modal setShowModal={setShowModal} obj={obj} actionType = {actionType}/>}
     </div>
   );
 };
