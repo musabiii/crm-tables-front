@@ -151,12 +151,12 @@ select {
   z-index: 6;
 }
 
-.columns-visible .exit-flex {
+.exit-flex {
   display: flex;
   justify-content: flex-end;
   color: red;
 }
-.columns-visible .exit-flex .exit-btn {
+.exit-flex .exit-btn {
   cursor: pointer;
 }
 

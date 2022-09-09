@@ -20,7 +20,6 @@ export const Actions: FC<ActionsProps> = ({ columns,changeVisible,handleShowModa
   };
 
   const handleOpen = () => {
-    // setShowModal(!show
     setActionType(EActionType.open)
     setShowModal(true)
   }
