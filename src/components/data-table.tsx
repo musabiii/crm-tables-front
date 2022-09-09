@@ -122,6 +122,7 @@ export default function DataTable(props: IDataTable): JSX.Element {
                     <th
                       onClick={() => handleSetSort(col.title)}
                       key={col.title}
+                      style={{width:col.width,maxWidth:col.width}}
                     >
                       {col.title}
                       <SortBlock sortType={sortType(col.title)} />
@@ -142,7 +143,7 @@ export default function DataTable(props: IDataTable): JSX.Element {
                 >
                   {columns.map((col) => {
                     return (
-                      col.visible && <td key={col.title}>{row[col.title]}</td>
+                      col.visible && <td   style={{width:col.width}} key={col.title}>{row[col.title]}</td>
                     );
                   })}
                 </tr>

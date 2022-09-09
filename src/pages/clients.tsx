@@ -13,26 +13,32 @@ export default function Clients() {
     {
       title: "id",
       visible: true,
+      width:50
     },
     {
       title: "title",
       visible: true,
+      width: 200
     },
     {
       title: "inn",
       visible: true,
+      width: 200
     },
     {
       title: "phone",
       visible: true,
+      width: 200
     },
     {
       title: "mail",
       visible: true,
+      width: 200
     },
     {
       title: "address",
       visible: true,
+      width: 200
     },
   ];
 

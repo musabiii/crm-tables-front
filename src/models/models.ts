@@ -40,7 +40,8 @@ export interface IDocument {
 
 export interface IColumn {
   title:string,
-  visible:boolean
+  visible:boolean,
+  width: number
 }
 
 export enum EOrder {

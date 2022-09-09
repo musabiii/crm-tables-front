@@ -16,6 +16,11 @@ table {
   border-collapse: collapse;
   margin: 0 auto;
   position: relative;
+  table-layout: fixed;
+}
+
+th, td {
+  overflow: hidden;
 }
 
 /* .data-table {
