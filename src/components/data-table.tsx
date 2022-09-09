@@ -10,10 +10,11 @@ interface IDataTable {
   fetchData: Function;
   data: any[];
   changeVisibleColumns: Function;
+  fetchUpdate:Function
 }
 
 export default function DataTable(props: IDataTable): JSX.Element {
-  const { columns, fetchData, data, changeVisibleColumns } = props;
+  const { columns, fetchData, data, changeVisibleColumns,fetchUpdate } = props;
 
   const [selectedRow, setSelectedRow] = useState(0);
   const [selectedRowObj, setSelectedRowObj] = useState({});
@@ -36,6 +37,14 @@ export default function DataTable(props: IDataTable): JSX.Element {
       page,
     };
   };
+
+  // const [fetchUpdateDirect,{data:dataRow}] = fetchUpdate()
+
+  // useEffect(() => {
+  //   console.log(dataRow)
+  //   fetchData(fetchOptions());
+  // }, [dataRow])
+
 
   useEffect(() => {
     console.log("use effect [fetch]Data(fetchOptions()");
@@ -100,6 +109,8 @@ export default function DataTable(props: IDataTable): JSX.Element {
         changeVisible={changeVisibleColumns}
         handleShowModal={handleShowModal}
         obj = {selectedRowObj}
+        fetchUpdate = {fetchUpdate}
+        updateData = {()=>fetchData(fetchOptions())}
       />
       {/* {showModal && <Modal/>} */}
       <Filter

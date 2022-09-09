@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Actions } from "../components/actions";
 import DataTable from "../components/data-table";
 import { EClientColumns, IClient, IColumn, TClient } from "../models/models";
-import { useLazyGetClientsQuery } from "../store/crm.api";
+import { useLazyGetClientsQuery, useLazyUpdateClientQuery, useUpdateClientQuery } from "../store/crm.api";
 
 export default function Clients() {
 
@@ -54,6 +54,12 @@ export default function Clients() {
   };
 
   const [fetchData, { data }] = useLazyGetClientsQuery();
+  // const [fetchUpdateClient,{data:dataClient}] = useLazyUpdateClientQuery()
+
+  // useEffect(() => {
+  //   console.log("dataClient",dataClient)
+  // }, [dataClient])
+
 
   return (
     <div className="client page">
@@ -67,6 +73,7 @@ export default function Clients() {
         fetchData = {fetchData}
         data = {data??[]}
         changeVisibleColumns = {changeVisible}
+        fetchUpdate = {useLazyUpdateClientQuery}
       />
     </div>
   );

@@ -1,19 +1,34 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { EActionType } from "../models/models";
 
 interface IModal {
   setShowModal: Function;
   obj: object;
   actionType: EActionType;
+  fetchUpdate:Function
+  updateData:Function
 }
 
-export const Modal: FC<IModal> = ({ setShowModal, obj, actionType }) => {
-  // console.log(obj);
-  for (let v in obj) {
-    console.log(v);
-  }
+export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,updateData }) => {
 
   const [editObj, setEditObj] = useState(obj);
+
+  const [fetchUpdateDirect,{isFulfilled,isError,isLoading,data}] = fetchUpdate()
+
+  useEffect(() => {
+    console.log('datarow')
+    console.log('isLoading',isLoading)
+    console.log('isFulfilled',isFulfilled)
+    // setShowModal(false)
+    updateData()
+  }, [data])
+
+  useEffect(()=>{
+    console.log('isError',isError)
+    if (isError) {
+
+    }
+  },[isError])
 
   const handleChangeInput = (
     e: React.SyntheticEvent<HTMLInputElement>,
@@ -29,6 +44,7 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType }) => {
   const handleSubmit = (e:React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('submit')
+    fetchUpdateDirect(editObj);
   }
 
   return (
@@ -62,8 +78,8 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType }) => {
               );
             })}
           <div className="action-btns">
-            <button className="cancel">cancel</button>
-            <button type="submit" className="save">save</button>
+          {actionType !== EActionType.open && <button className="cancel">cancel</button>}
+          {actionType !== EActionType.open && <button type="submit" className="save">save</button>}
           </div>
         </>
       </form>
