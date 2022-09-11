@@ -61,15 +61,15 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
           {actionType === EActionType.open &&
             Object.keys(editObj).map((el) => (
               <p>
-                {el}:{editObj[el as keyof object]}
+                <span className="modal-prop">{el}</span>:{editObj[el as keyof object]}
               </p>
             ))}
           {actionType === EActionType.edit &&
             Object.keys(editObj).map((el) => {
               return (
                 <p>
-                  <label htmlFor={el}>{el}</label>:
-                  <input
+                  <label className="modal-prop" htmlFor={el}>{el}</label>:
+                  <input className="modal-input"
                     id={el}
                     value={editObj[el as keyof object]}
                     onChange={(e) => handleChangeInput(e, el as keyof object)}
@@ -78,8 +78,8 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
               );
             })}
           <div className="action-btns">
-          {actionType !== EActionType.open && <button className="cancel">cancel</button>}
-          {actionType !== EActionType.open && <button type="submit" className="save">save</button>}
+          {actionType !== EActionType.open && <button className="modal-btn btn-cancel">cancel</button>}
+          {actionType !== EActionType.open && <button type="submit" className="modal-btn btn-save">save</button>}
           </div>
         </>
       </form>
