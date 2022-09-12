@@ -49,6 +49,7 @@ export default function DataTable(props: IDataTable): JSX.Element {
   useEffect(() => {
     console.log("use effect [fetch]Data(fetchOptions()");
     fetchData(fetchOptions());
+    setSelectedRow(0);
   }, [sortCol, order, filterCol, filterCompare, filterValue, page]);
 
   useEffect(() => {
@@ -99,7 +100,9 @@ export default function DataTable(props: IDataTable): JSX.Element {
   };
 
   const handleShowModal = () => {
-    setShowModal(!showModal);
+    if (selectedRow>0) {
+      setShowModal(!showModal);
+    }
   };
 
   return (
@@ -111,6 +114,7 @@ export default function DataTable(props: IDataTable): JSX.Element {
         obj = {selectedRowObj}
         fetchUpdate = {fetchUpdate}
         updateData = {()=>fetchData(fetchOptions())}
+        selectedRow = {selectedRow}
       />
       {/* {showModal && <Modal/>} */}
       <Filter

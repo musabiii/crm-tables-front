@@ -10,6 +10,7 @@ interface ActionsProps {
   obj: object;
   fetchUpdate: Function;
   updateData: Function;
+  selectedRow:number
 }
 
 export const Actions: FC<ActionsProps> = ({
@@ -19,6 +20,7 @@ export const Actions: FC<ActionsProps> = ({
   obj,
   fetchUpdate,
   updateData,
+  selectedRow
 }) => {
   const [showColumns, setShowColumns] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -29,13 +31,17 @@ export const Actions: FC<ActionsProps> = ({
   };
 
   const handleOpen = () => {
-    setActionType(EActionType.open);
-    setShowModal(true);
+    if (selectedRow>0) {
+      setActionType(EActionType.open);
+      setShowModal(true);
+    }
   };
 
   const handleEdit = () => {
-    setActionType(EActionType.edit);
-    setShowModal(true);
+    if (selectedRow>0) {
+      setActionType(EActionType.edit);
+      setShowModal(true);
+    }
   };
 
   const handleCreate = () => {

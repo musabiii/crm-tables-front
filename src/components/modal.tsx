@@ -53,19 +53,25 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
       <form className="modal-box" onSubmit={handleSubmit}>
         <>
           <div className="exit-flex">
-            <div className="exit-btn" onClick={() => {}}>
+            <div className="exit-btn" onClick={() => setShowModal(false)}>
               X
             </div>
           </div>
-          modal box
+          <div className="modal-title">
+          id {editObj["id" as keyof object]}
+          </div>
           {actionType === EActionType.open &&
-            Object.keys(editObj).map((el) => (
-              <p>
+            Object.keys(editObj).map((el) => {
+              if (el==='id') return ""
+              return (
+                <p>
                 <span className="modal-prop">{el}</span>:{editObj[el as keyof object]}
               </p>
-            ))}
+                )
+            })}
           {actionType === EActionType.edit &&
             Object.keys(editObj).map((el) => {
+              if (el==='id') return ""
               return (
                 <p>
                   <label className="modal-prop" htmlFor={el}>{el}</label>:
