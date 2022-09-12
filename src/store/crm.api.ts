@@ -27,7 +27,7 @@ export const crmApi = createApi({
         method:"PUT"
       }),
     }),
-    createClient:build.query<any,IClient>({
+    createClient:build.query<IClient,IClient>({
       query: (obj) => ({
         url: `/client/`,
         body:obj,

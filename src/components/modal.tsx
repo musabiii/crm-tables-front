@@ -17,7 +17,7 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
   const [editObj, setEditObj] = useState(baseObject);
 
   const [fetchUpdateDirect,{isFulfilled,isError,isLoading,data}] = fetchUpdate()
-  const [fetchCreateDirect] = fetchCreate()
+  const [fetchCreateDirect,{data:createData}] = fetchCreate()
 
   useEffect(() => {
     console.log('datarow')
@@ -25,14 +25,19 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
     console.log('isFulfilled',isFulfilled)
     // setShowModal(false)
     updateData()
+    if (data) {
+      setShowModal(false)
+    }
   }, [data])
 
-  useEffect(()=>{
-    console.log('isError',isError)
-    if (isError) {
 
+  useEffect(() => {
+    console.log('createData',createData)
+    if (createData) {
+      setShowModal(false)
     }
-  },[isError])
+  }, [createData])
+
 
   const handleChangeInput = (
     e: React.SyntheticEvent<HTMLInputElement>,
@@ -51,7 +56,7 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
     if (actionType === EActionType.edit) {
       fetchUpdateDirect(editObj);
     } else if (actionType === EActionType.create) {
-      fetchCreateDirect(editObj)
+      fetchCreateDirect(editObj);
     }
   }
 
