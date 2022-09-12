@@ -29,8 +29,8 @@ th, td {
 
 .data-table {
   text-align: center;
-  /* height: 75vh; */
-  /* overflow-y: scroll; */
+  height: 75vh;
+  overflow-y: scroll;
   position: relative;
 }
 

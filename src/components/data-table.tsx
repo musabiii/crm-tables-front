@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { EOrder, IColumn, IRowBase } from "../models/models";
+import { EActionType, EOrder, IColumn, IRowBase } from "../models/models";
 import { Actions } from "./actions";
 import { ColumnsVisible } from "./columns-visible";
 import { Filter } from "./filter";
@@ -29,6 +29,9 @@ export default function DataTable(props: IDataTable): JSX.Element {
   const [showModal, setShowModal] = useState(false);
 
   const [showColumns, setShowColumns] = useState(false);
+
+  const [actionType, setActionType] = useState<EActionType>(EActionType.open);
+
 
 
   const fetchOptions = () => {
@@ -103,23 +106,35 @@ export default function DataTable(props: IDataTable): JSX.Element {
     }
   };
 
-  const handleShowModal = () => {
-    if (selectedRow>0) {
-      setShowModal(!showModal);
-    }
-  };
+
+      const handleOpen = () => {
+        if (selectedRow>0) {
+          setActionType(EActionType.open);
+          setShowModal(true);
+        }
+      };
+
+      const handleEdit = () => {
+        if (selectedRow>0) {
+          setActionType(EActionType.edit);
+          setShowModal(true);
+        }
+      };
+
+      const handleCreate = () => {
+        setActionType(EActionType.create);
+        setShowModal(true);
+      };
+
+
 
   return (
     <div>
       <Actions
-        columns={columns}
-        changeVisible={changeVisibleColumns}
-        handleShowModal={handleShowModal}
-        obj = {selectedRowObj}
-        fetchUpdate = {fetchUpdate}
-        updateData = {()=>fetchData(fetchOptions())}
-        selectedRow = {selectedRow}
         setShowColumns = {setShowColumns}
+        handleOpen ={handleOpen}
+        handleEdit ={handleEdit}
+        handleCreate ={handleCreate}
       />
       {/* {showModal && <Modal/>} */}
       <Filter
@@ -178,6 +193,17 @@ export default function DataTable(props: IDataTable): JSX.Element {
           columns={columns}
           changeVisible={changeVisibleColumns}
           setShowColumns={setShowColumns}
+        />
+      )}
+
+
+      {showModal && (
+        <Modal
+          setShowModal={setShowModal}
+          obj={selectedRowObj}
+          actionType={actionType}
+          fetchUpdate={fetchUpdate}
+          updateData = {()=>fetchData(fetchOptions())}
         />
       )}
 

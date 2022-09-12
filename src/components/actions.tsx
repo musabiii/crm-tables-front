@@ -1,88 +1,34 @@
-import React, { FC, useState } from "react";
-import { EActionType, IColumn } from "../models/models";
-import { ColumnsVisible } from "./columns-visible";
-import { Modal } from "./modal";
+import { FC } from "react";
 
 interface ActionsProps {
-  columns: IColumn[];
-  changeVisible: Function;
-  handleShowModal: Function;
-  obj: object;
-  fetchUpdate: Function;
-  updateData: Function;
-  selectedRow:number
   setShowColumns:Function
+  handleOpen:Function
+  handleEdit:Function
+  handleCreate:Function
 }
 
 export const Actions: FC<ActionsProps> = ({
-  columns,
-  changeVisible,
-  handleShowModal,
-  obj,
-  fetchUpdate,
-  updateData,
-  selectedRow,
-  setShowColumns
+  setShowColumns,
+  handleOpen,
+  handleEdit,
+  handleCreate
 }) => {
-  // const [showColumns, setShowColumns] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-  const [actionType, setActionType] = useState<EActionType>(EActionType.open);
-
-  const handleVisible = () => {
-    setShowColumns(true);
-  };
-
-  const handleOpen = () => {
-    if (selectedRow>0) {
-      setActionType(EActionType.open);
-      setShowModal(true);
-    }
-  };
-
-  const handleEdit = () => {
-    if (selectedRow>0) {
-      setActionType(EActionType.edit);
-      setShowModal(true);
-    }
-  };
-
-  const handleCreate = () => {
-    setActionType(EActionType.create);
-    setShowModal(true);
-  };
 
   return (
     <div className="actions">
-      <div className="open-action action" onClick={handleOpen}>
+      <div className="open-action action" onClick={()=>handleOpen()}>
         open
       </div>
-      <div className="edit-action action" onClick={handleEdit}>
+      <div className="edit-action action" onClick={()=>handleEdit()}>
         edit
       </div>
-      <div className="create-action action" onClick={handleCreate}>
+      <div className="create-action action" onClick={()=>handleCreate()}>
         create
       </div>
 
-      <div className="visible-action action" onClick={handleVisible}>
+      <div className="visible-action action" onClick={()=>setShowColumns(true)}>
         columns
       </div>
-
-      {/* {showColumns && (
-        <ColumnsVisible
-          columns={columns}
-          changeVisible={changeVisible}
-          setShowColumns={setShowColumns}
-        />
-      )} */}
-      {showModal && (
-        <Modal
-          setShowModal={setShowModal}
-          obj={obj}
-          actionType={actionType}
-          fetchUpdate={fetchUpdate}
-          updateData={updateData}
-        />
-      )}
     </div>
   );
 };
