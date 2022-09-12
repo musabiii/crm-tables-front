@@ -159,6 +159,8 @@ select {
   opacity: 2;
   z-index: 6;
   overflow: hidden;
+  top: 25%;
+  left: 25%;
 }
 
 .modal-prop {
