@@ -185,6 +185,21 @@ select {
   font-size: 24px;
   cursor: pointer;
   color: var(--main);
+  border: var(--main) 1px solid;
+}
+
+.modal-btn:hover {
+  background-color: rgb(205, 205, 205);
+  box-shadow: 5px 5px 10px #eee
+}
+
+.btn-save {
+/* background-color: rgb(79, 248, 116); */
+color: green;
+}
+
+.btn-cancel {
+color: red;
 }
 
 .exit-flex {

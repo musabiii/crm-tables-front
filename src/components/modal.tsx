@@ -84,7 +84,7 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
               );
             })}
           <div className="action-btns">
-          {actionType !== EActionType.open && <button className="modal-btn btn-cancel">cancel</button>}
+          {actionType !== EActionType.open && <button type="button" className="modal-btn btn-cancel" onClick={()=>setShowModal(false)}>cancel</button>}
           {actionType !== EActionType.open && <button type="submit" className="modal-btn btn-save">save</button>}
           </div>
         </>

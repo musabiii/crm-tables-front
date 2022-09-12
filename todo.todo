@@ -1,5 +1,8 @@
 [ ] arrows color
-[ ] save btn color
+
+modal
+[x] save btn color
+[x] cancel action of modal
+[ ] bg of modal cover table
 [ ] create btn
 [ ] object for create
-[ ] bg of modal cover table
