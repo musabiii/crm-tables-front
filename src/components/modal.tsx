@@ -1,19 +1,23 @@
 import React, { FC, useEffect, useState } from "react";
-import { EActionType } from "../models/models";
+import { EActionType, EClientColumns } from "../models/models";
 
 interface IModal {
   setShowModal: Function;
   obj: object;
   actionType: EActionType;
   fetchUpdate:Function
+  fetchCreate:Function
   updateData:Function
+  createProps:string[]
 }
 
-export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,updateData }) => {
+export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,updateData,createProps,fetchCreate }) => {
 
-  const [editObj, setEditObj] = useState(obj);
+  const baseObject = (actionType === EActionType.create) ? {} : obj;
+  const [editObj, setEditObj] = useState(baseObject);
 
   const [fetchUpdateDirect,{isFulfilled,isError,isLoading,data}] = fetchUpdate()
+  const [fetchCreateDirect] = fetchCreate()
 
   useEffect(() => {
     console.log('datarow')
@@ -44,7 +48,11 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
   const handleSubmit = (e:React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('submit')
-    fetchUpdateDirect(editObj);
+    if (actionType === EActionType.edit) {
+      fetchUpdateDirect(editObj);
+    } else if (actionType === EActionType.create) {
+      fetchCreateDirect(editObj)
+    }
   }
 
   return (
@@ -58,13 +66,14 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
             </div>
           </div>
           <div className="modal-title">
-          id {editObj["id" as keyof object]}
+          {actionType !== EActionType.create && <span>id {editObj["id" as keyof object]}</span>}
+          {actionType === EActionType.create && <span>New record</span>}
           </div>
           {actionType === EActionType.open &&
             Object.keys(editObj).map((el) => {
               if (el==='id') return ""
               return (
-                <p>
+                <p key={el}>
                 <span className="modal-prop">{el}</span>:{editObj[el as keyof object]}
               </p>
                 )
@@ -73,10 +82,24 @@ export const Modal: FC<IModal> = ({ setShowModal, obj, actionType, fetchUpdate,u
             Object.keys(editObj).map((el) => {
               if (el==='id') return ""
               return (
-                <p>
-                  <label className="modal-prop" htmlFor={el}>{el}</label>:
+                <p key={el}>
+                  <label className="modal-prop" htmlFor={el+"edit"}>{el}</label>:
                   <input className="modal-input"
-                    id={el}
+                    id={el+"edit"}
+                    value={editObj[el as keyof object]}
+                    onChange={(e) => handleChangeInput(e, el as keyof object)}
+                  />
+                </p>
+              );
+            })}
+          {actionType === EActionType.create &&
+            createProps.map((el) => {
+              if (el==='id') return ""
+              return (
+                <p key={el}>
+                  <label className="modal-prop" htmlFor={el+"create"}>{el}</label>:
+                  <input className="modal-input"
+                    id={el+"create"}
                     value={editObj[el as keyof object]}
                     onChange={(e) => handleChangeInput(e, el as keyof object)}
                   />

@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Actions } from "../components/actions";
 import DataTable from "../components/data-table";
-import { EClientColumns, IClient, IColumn, TClient } from "../models/models";
-import { useLazyGetClientsQuery, useLazyUpdateClientQuery, useUpdateClientQuery } from "../store/crm.api";
+import { IColumn } from "../models/models";
+import { useLazyCreateClientQuery, useLazyGetClientsQuery, useLazyUpdateClientQuery } from "../store/crm.api";
 
 export default function Clients() {
 
@@ -74,6 +73,7 @@ export default function Clients() {
         data = {data??[]}
         changeVisibleColumns = {changeVisible}
         fetchUpdate = {useLazyUpdateClientQuery}
+        fetchCreate = {useLazyCreateClientQuery}
       />
     </div>
   );

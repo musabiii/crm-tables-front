@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { EActionType, EOrder, IColumn, IRowBase } from "../models/models";
+import { EActionType, EOrder, IColumn } from "../models/models";
 import { Actions } from "./actions";
 import { ColumnsVisible } from "./columns-visible";
 import { Filter } from "./filter";
@@ -12,18 +12,19 @@ interface IDataTable {
   data: any[];
   changeVisibleColumns: Function;
   fetchUpdate:Function
+  fetchCreate:Function
 }
 
 export default function DataTable(props: IDataTable): JSX.Element {
-  const { columns, fetchData, data, changeVisibleColumns,fetchUpdate } = props;
+  const { columns, fetchData, data, changeVisibleColumns,fetchUpdate,fetchCreate } = props;
 
   const [selectedRow, setSelectedRow] = useState(0);
   const [selectedRowObj, setSelectedRowObj] = useState({});
 
   const [sortCol, setSortCol] = useState("id");
   const [order, setOrder] = useState<EOrder>(EOrder.asc);
-  const [filterCol, setFilterCol] = useState("id");
-  const [filterCompare, setFilterCompare] = useState("=");
+  const [filterCol, setFilterCol] = useState("title");
+  const [filterCompare, setFilterCompare] = useState("like");
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState<number>(1);
   const [showModal, setShowModal] = useState(false);
@@ -31,7 +32,6 @@ export default function DataTable(props: IDataTable): JSX.Element {
   const [showColumns, setShowColumns] = useState(false);
 
   const [actionType, setActionType] = useState<EActionType>(EActionType.open);
-
 
 
   const fetchOptions = () => {
@@ -48,13 +48,12 @@ export default function DataTable(props: IDataTable): JSX.Element {
   // const [fetchUpdateDirect,{data:dataRow}] = fetchUpdate()
 
   // useEffect(() => {
-  //   console.log(dataRow)
-  //   fetchData(fetchOptions());
+  //
   // }, [dataRow])
 
 
   useEffect(() => {
-    console.log("use effect [fetch]Data(fetchOptions()");
+
     fetchData(fetchOptions());
     setSelectedRow(0);
   }, [sortCol, order, filterCol, filterCompare, filterValue, page]);
@@ -83,10 +82,10 @@ export default function DataTable(props: IDataTable): JSX.Element {
     e: React.MouseEvent<HTMLTableRowElement>,
     id: number
   ) => {
-    console.log(e.detail);
-    console.log(e.currentTarget);
+
+
     const selectObj = data.find((el) => el.id === id);
-    console.log(selectObj);
+
     if (e.detail === 2) {
     }
 
@@ -203,7 +202,9 @@ export default function DataTable(props: IDataTable): JSX.Element {
           obj={selectedRowObj}
           actionType={actionType}
           fetchUpdate={fetchUpdate}
+          fetchCreate={fetchCreate}
           updateData = {()=>fetchData(fetchOptions())}
+          createProps = {columns.map(el => el.title)}
         />
       )}
 
