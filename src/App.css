@@ -27,11 +27,12 @@ th, td {
   overflow: hidden;
 }
 
-/* .data-table {
+.data-table {
   text-align: center;
-  height: 75vh;
-  overflow-y: scroll;
-} */
+  /* height: 75vh; */
+  /* overflow-y: scroll; */
+  position: relative;
+}
 
 .data-table th {
   position: -webkit-sticky;
@@ -130,6 +131,7 @@ select {
 .action:hover {
   color: black;
 }
+
 
 .columns-visible-back, .modal-back {
   position: absolute;

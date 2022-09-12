@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { EOrder, IColumn, IRowBase } from "../models/models";
 import { Actions } from "./actions";
+import { ColumnsVisible } from "./columns-visible";
 import { Filter } from "./filter";
 import { Modal } from "./modal";
 import { Pagination } from "./pagination";
@@ -26,6 +27,9 @@ export default function DataTable(props: IDataTable): JSX.Element {
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState<number>(1);
   const [showModal, setShowModal] = useState(false);
+
+  const [showColumns, setShowColumns] = useState(false);
+
 
   const fetchOptions = () => {
     return {
@@ -115,6 +119,7 @@ export default function DataTable(props: IDataTable): JSX.Element {
         fetchUpdate = {fetchUpdate}
         updateData = {()=>fetchData(fetchOptions())}
         selectedRow = {selectedRow}
+        setShowColumns = {setShowColumns}
       />
       {/* {showModal && <Modal/>} */}
       <Filter
@@ -167,6 +172,14 @@ export default function DataTable(props: IDataTable): JSX.Element {
           </tbody>
         </table>
       </div>
+
+      {showColumns && (
+        <ColumnsVisible
+          columns={columns}
+          changeVisible={changeVisibleColumns}
+          setShowColumns={setShowColumns}
+        />
+      )}
 
       <Pagination
         page={page}

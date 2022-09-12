@@ -11,6 +11,7 @@ interface ActionsProps {
   fetchUpdate: Function;
   updateData: Function;
   selectedRow:number
+  setShowColumns:Function
 }
 
 export const Actions: FC<ActionsProps> = ({
@@ -20,14 +21,15 @@ export const Actions: FC<ActionsProps> = ({
   obj,
   fetchUpdate,
   updateData,
-  selectedRow
+  selectedRow,
+  setShowColumns
 }) => {
-  const [showColumns, setShowColumns] = useState(false);
+  // const [showColumns, setShowColumns] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [actionType, setActionType] = useState<EActionType>(EActionType.open);
 
   const handleVisible = () => {
-    setShowColumns(!showColumns);
+    setShowColumns(true);
   };
 
   const handleOpen = () => {
@@ -65,13 +67,13 @@ export const Actions: FC<ActionsProps> = ({
         columns
       </div>
 
-      {showColumns && (
+      {/* {showColumns && (
         <ColumnsVisible
           columns={columns}
           changeVisible={changeVisible}
           setShowColumns={setShowColumns}
         />
-      )}
+      )} */}
       {showModal && (
         <Modal
           setShowModal={setShowModal}
