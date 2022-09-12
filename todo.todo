@@ -4,5 +4,8 @@ modal
 [x] save btn color
 [x] cancel action of modal
 [x] bg of modal cover table
-[ ] create btn
-[ ] object for create
+[x] create btn
+[x] object for create
+[ ] loading ui
+[ ] error ui
+[ ] disable save before fill props
