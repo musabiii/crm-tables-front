@@ -9,6 +9,7 @@ import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
 import { crmApi } from "./store/crm.api";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Clients from "./pages/clients";
+import Services from "./pages/services";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -20,6 +21,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/clients" element={<Clients />} />
+        <Route path="/services" element={<Services />} />
       </Routes>
     </BrowserRouter>
   </ApiProvider>

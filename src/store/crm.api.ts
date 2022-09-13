@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IClient, IQuery } from "../models/models";
+import { IClient, IDocument, IQuery, IService } from "../models/models";
 
 export const crmApi = createApi({
   reducerPath: "crm/api",
@@ -8,33 +8,72 @@ export const crmApi = createApi({
     baseUrl: "http://localhost:4000/api/",
   }),
   endpoints: (build) => ({
-    getClients: build.query<IClient[],IQuery>({
+    getClients: build.query<IClient[], IQuery>({
       query: (query) => ({
         // url: `/comments/?id=1`,
         url: `/client`,
-        params: query
+        params: query,
       }),
     }),
-    getClient:build.query<any,number>({
+    getClient: build.query<any, number>({
       query: (id) => ({
         url: `/client/${id}`,
       }),
     }),
-    updateClient:build.query<any,IClient>({
+    updateClient: build.query<any, IClient>({
       query: (obj) => ({
         url: `/client/${obj.id}`,
-        body:obj,
-        method:"PUT"
+        body: obj,
+        method: "PUT",
       }),
     }),
-    createClient:build.query<IClient,IClient>({
+    createClient: build.query<IClient, IClient>({
       query: (obj) => ({
         url: `/client/`,
-        body:obj,
-        method:"POST"
+        body: obj,
+        method: "POST",
+      }),
+    }),
+    getServices: build.query<IService[], IQuery>({
+      query: (query) => ({
+        // url: `/comments/?id=1`,
+        url: `/service`,
+        params: query,
+      }),
+    }),
+    updateService: build.query<any, IService>({
+      query: (obj) => ({
+        url: `/service/${obj.id}`,
+        body: obj,
+        method: "PUT",
+      }),
+    }),
+    createService: build.query<IClient, IService>({
+      query: (obj) => ({
+        url: `/service/`,
+        body: obj,
+        method: "POST",
+      }),
+    }),
+    getDocuments: build.query<IDocument[], IQuery>({
+      query: (query) => ({
+        // url: `/comments/?id=1`,
+        url: `/client`,
+        params: query,
       }),
     }),
   }),
 });
 
-export const { useGetClientsQuery,useLazyGetClientsQuery, useLazyGetClientQuery,useUpdateClientQuery,useLazyUpdateClientQuery, useLazyCreateClientQuery } = crmApi;
+export const {
+  useGetClientsQuery,
+  useLazyGetClientsQuery,
+  useLazyGetClientQuery,
+  useUpdateClientQuery,
+  useLazyUpdateClientQuery,
+  useLazyCreateClientQuery,
+  useLazyGetServicesQuery,
+  useLazyUpdateServiceQuery,
+  useLazyCreateServiceQuery,
+  useLazyGetDocumentsQuery,
+} = crmApi;

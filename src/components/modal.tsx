@@ -23,7 +23,7 @@ export const Modal: FC<IModal> = ({
 }) => {
   const baseObject = actionType === EActionType.create ? {} : obj;
   const [editObj, setEditObj] = useState(baseObject);
-  const [disabled, setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(false)
 
   const [fetchUpdateDirect, { isFulfilled, isError, isLoading, data }] =
     fetchUpdate();
