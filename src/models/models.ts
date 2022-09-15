@@ -41,7 +41,8 @@ export interface IDocument {
 export interface IColumn {
   title:string,
   visible:boolean,
-  width: number
+  width: number,
+  getOptions?:Function
 }
 
 export enum EOrder {

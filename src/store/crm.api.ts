@@ -20,6 +20,12 @@ export const crmApi = createApi({
         url: `/client/${id}`,
       }),
     }),
+    getClientOptions: build.query<any, {}>({
+      query: (title) => ({
+        url: `/client-options`,
+        params:title
+      }),
+    }),
     updateClient: build.query<any, IClient>({
       query: (obj) => ({
         url: `/client/${obj.id}`,
@@ -84,6 +90,8 @@ export const {
   useGetClientsQuery,
   useLazyGetClientsQuery,
   useLazyGetClientQuery,
+  useGetClientOptionsQuery,
+  useLazyGetClientOptionsQuery,
   useUpdateClientQuery,
   useLazyUpdateClientQuery,
   useLazyCreateClientQuery,

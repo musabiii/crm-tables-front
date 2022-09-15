@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 import DataTable from "../components/data-table";
 import { IColumn } from "../models/models";
 import {
+  useGetClientOptionsQuery,
   useLazyCreateDocumentQuery,
+  useLazyGetClientOptionsQuery,
   useLazyGetDocumentsQuery,
+  useLazyGetServicesQuery,
   useLazyUpdateDocumentQuery,
 } from "../store/crm.api";
 
 export default function Documents() {
+
+      const {data:clientOptionsData} = useGetClientOptionsQuery({title:'a'})
+      console.log("clientOptionsData",clientOptionsData);
+
   const columnsList: IColumn[] = [
     {
       title: "id",
