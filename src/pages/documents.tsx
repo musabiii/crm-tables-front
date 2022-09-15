@@ -2,47 +2,47 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import DataTable from "../components/data-table";
 import { IColumn } from "../models/models";
-import { useLazyCreateDocumentQuery, useLazyGetDocumentsQuery, useLazyUpdateDocumentQuery } from "../store/crm.api";
+import {
+  useLazyCreateDocumentQuery,
+  useLazyGetDocumentsQuery,
+  useLazyUpdateDocumentQuery,
+} from "../store/crm.api";
 
 export default function Documents() {
-
-
-
   const columnsList: IColumn[] = [
     {
       title: "id",
       visible: true,
-      width:50
+      width: 50,
     },
     {
       title: "date",
       visible: true,
-      width: 200
+      width: 200,
     },
     {
       title: "client_id",
       visible: false,
-      width: 200
+      width: 200,
     },
     {
       title: "service_id",
       visible: false,
-      width: 200
+      width: 200,
     },
     {
       title: "client_title",
       visible: true,
-      width: 200
+      width: 200,
     },
     {
       title: "service_title",
       visible: true,
-      width: 200
+      width: 200,
     },
   ];
 
   const [columns, setColumns] = useState<IColumn[]>(columnsList);
-
 
   const changeVisible = (col: IColumn) => {
     setColumns((cols) => {
@@ -59,7 +59,6 @@ export default function Documents() {
   //   console.log("dataClient",dataClient)
   // }, [dataClient])
 
-
   return (
     <div className="client page">
       <Link to="/" className="home-link">
@@ -69,13 +68,12 @@ export default function Documents() {
       <DataTable
         columns={columns}
         // lazyFetch = {useLazyGetClientsQuery}
-        fetchData = {fetchData}
-        data = {data??[]}
-        changeVisibleColumns = {changeVisible}
-        fetchUpdate = {useLazyUpdateDocumentQuery}
-        fetchCreate = {useLazyCreateDocumentQuery}
+        fetchData={fetchData}
+        data={data ?? []}
+        changeVisibleColumns={changeVisible}
+        fetchUpdate={useLazyUpdateDocumentQuery}
+        fetchCreate={useLazyCreateDocumentQuery}
       />
     </div>
   );
 }
-

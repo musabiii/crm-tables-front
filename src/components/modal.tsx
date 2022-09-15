@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { isElementAccessExpression } from "typescript";
-import { EActionType, EClientColumns } from "../models/models";
+import { EActionType } from "../models/models";
 
 interface IModal {
   setShowModal: Function;
