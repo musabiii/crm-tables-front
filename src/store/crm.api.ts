@@ -58,10 +58,25 @@ export const crmApi = createApi({
     getDocuments: build.query<IDocument[], IQuery>({
       query: (query) => ({
         // url: `/comments/?id=1`,
-        url: `/client`,
+        url: `/document`,
         params: query,
       }),
     }),
+    updateDocument: build.query<any, IDocument>({
+      query: (obj) => ({
+        url: `/document/${obj.id}`,
+        body: obj,
+        method: "PUT",
+      }),
+    }),
+    createDocument: build.query<IClient, IDocument>({
+      query: (obj) => ({
+        url: `/document/`,
+        body: obj,
+        method: "POST",
+      }),
+    }),
+
   }),
 });
 
@@ -76,4 +91,6 @@ export const {
   useLazyUpdateServiceQuery,
   useLazyCreateServiceQuery,
   useLazyGetDocumentsQuery,
+  useLazyCreateDocumentQuery,
+  useLazyUpdateDocumentQuery,
 } = crmApi;

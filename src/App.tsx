@@ -10,6 +10,7 @@ function App() {
         <Link to='/'>Home</Link>
         <Link to='/clients'>Clients</Link>
         <Link to='/services'>Services</Link>
+        <Link to='/documents'>Documents</Link>
       </header>
     </div>
   );

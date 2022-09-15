@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import DataTable from "../components/data-table";
 import { IColumn } from "../models/models";
-import { useLazyCreateClientQuery, useLazyGetDocumentsQuery, useLazyUpdateClientQuery } from "../store/crm.api";
+import { useLazyCreateDocumentQuery, useLazyGetDocumentsQuery, useLazyUpdateDocumentQuery } from "../store/crm.api";
 
 export default function Documents() {
 
@@ -17,6 +17,16 @@ export default function Documents() {
     {
       title: "date",
       visible: true,
+      width: 200
+    },
+    {
+      title: "client_id",
+      visible: false,
+      width: 200
+    },
+    {
+      title: "service_id",
+      visible: false,
       width: 200
     },
     {
@@ -62,8 +72,8 @@ export default function Documents() {
         fetchData = {fetchData}
         data = {data??[]}
         changeVisibleColumns = {changeVisible}
-        fetchUpdate = {()=>{}}
-        fetchCreate = {()=>{}}
+        fetchUpdate = {useLazyUpdateDocumentQuery}
+        fetchCreate = {useLazyCreateDocumentQuery}
       />
     </div>
   );
