@@ -163,6 +163,20 @@ select {
   left: 25%;
 }
 
+.modal-box-inner {
+  position: relative;
+}
+
+.modal-row {
+  position: relative;
+}
+
+.modal-list {
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
+
 .modal-prop {
  color: var(--main);
  margin-right: 5px;

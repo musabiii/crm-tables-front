@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { EActionType } from "../models/models";
+import ModalList from "./modal-list";
 
 interface IModal {
   setShowModal: Function;
@@ -22,10 +23,10 @@ export const Modal: FC<IModal> = ({
 }) => {
   const baseObject = actionType === EActionType.create ? {} : obj;
   const [editObj, setEditObj] = useState(baseObject);
-  const [disabled, setDisabled] = useState(false)
+  const [disabled, setDisabled] = useState(false);
+  const [focusRow,setFocusRow] = useState<string>("");
 
-  const [fetchUpdateDirect, { isFulfilled, isLoading, data }] =
-    fetchUpdate();
+  const [fetchUpdateDirect, { isFulfilled, isLoading, data }] = fetchUpdate();
   const [fetchCreateDirect, { data: createData }] = fetchCreate();
 
   useEffect(() => {
@@ -57,6 +58,17 @@ export const Modal: FC<IModal> = ({
     setEditObj(newObj);
   };
 
+  const handleFocusInput = (
+    e: React.SyntheticEvent<HTMLInputElement>,
+    el: string
+  ) =>{
+    if (el.endsWith("_title")) {
+      console.log("focus input");
+      setFocusRow(el);
+      console.log(editObj[el as keyof object]);
+    }
+  }
+
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("submit");
@@ -64,8 +76,11 @@ export const Modal: FC<IModal> = ({
       fetchUpdateDirect(editObj);
     } else if (actionType === EActionType.create) {
       createProps.forEach((el) => {
-        if (!editObj[el as keyof object] && editObj[el as keyof object] !== 'id') {
-          console.log('fill',el)
+        if (
+          !editObj[el as keyof object] &&
+          editObj[el as keyof object] !== "id"
+        ) {
+          console.log("fill", el);
         }
       });
 
@@ -77,7 +92,7 @@ export const Modal: FC<IModal> = ({
     <div className="modal">
       <div className="modal-back" onClick={() => setShowModal(false)}></div>
       <form className="modal-box" onSubmit={handleSubmit}>
-        <>
+        <div className="modal-box-inner">
           <div className="exit-flex">
             <div className="exit-btn" onClick={() => setShowModal(false)}>
               X
@@ -92,6 +107,7 @@ export const Modal: FC<IModal> = ({
           {actionType === EActionType.open &&
             Object.keys(editObj).map((el) => {
               if (el === "id") return "";
+              if (el.endsWith("_id")) return "";
               return (
                 <p key={el}>
                   <span className="modal-prop">{el}</span>:
@@ -102,24 +118,28 @@ export const Modal: FC<IModal> = ({
           {actionType === EActionType.edit &&
             Object.keys(editObj).map((el) => {
               if (el === "id") return "";
+              if (el.endsWith("_id")) return "";
               return (
-                <p key={el}>
+                <p key={el} className="modal-row">
                   <label className="modal-prop" htmlFor={el + "edit"}>
                     {el}
                   </label>
                   :
-                  <input
-                    className="modal-input"
-                    id={el + "edit"}
-                    value={editObj[el as keyof object]}
-                    onChange={(e) => handleChangeInput(e, el as keyof object)}
-                  />
+                    <input
+                      className="modal-input"
+                      id={el + "edit"}
+                      value={editObj[el as keyof object]}
+                      onChange={(e) => handleChangeInput(e, el as keyof object)}
+                      onFocus={(e) => handleFocusInput(e, el as keyof object)}
+                    />
+                {el.endsWith("_title") && focusRow === el && <ModalList/>}
                 </p>
               );
             })}
           {actionType === EActionType.create &&
             createProps.map((el) => {
               if (el === "id") return "";
+              if (el.endsWith("_id")) return "";
               return (
                 <p key={el}>
                   <label className="modal-prop" htmlFor={el + "create"}>
@@ -146,12 +166,16 @@ export const Modal: FC<IModal> = ({
               </button>
             )}
             {actionType !== EActionType.open && (
-              <button type="submit" className="modal-btn btn-save" disabled = {disabled}>
+              <button
+                type="submit"
+                className="modal-btn btn-save"
+                disabled={disabled}
+              >
                 save
               </button>
             )}
           </div>
-        </>
+        </div>
       </form>
     </div>
   );
