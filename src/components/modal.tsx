@@ -62,12 +62,12 @@ export const Modal: FC<IModal> = ({
 
   const handleFocusInput = (
     e: React.SyntheticEvent<HTMLInputElement>,
-    el: string
+    title: string
   ) => {
-    setFocusRow(el);
-    if (el.endsWith("_title")) {
+    setFocusRow(title);
+    if (title.endsWith("_title")) {
       console.log("focus input");
-      console.log(editObj[el as keyof object]);
+      console.log(editObj[title as keyof object]);
     }
   };
 
@@ -101,6 +101,7 @@ export const Modal: FC<IModal> = ({
       newObj = { ...editObj, ...newObj };
       setEditObj(newObj);
     }
+    setFocusRow('');
   };
 
   return (
@@ -132,8 +133,9 @@ export const Modal: FC<IModal> = ({
             })}
           {columns.map((el) => {
             if (el.title.endsWith("id")) return "";
+            const zIndex = el.title===focusRow?100:0;
             return (
-              <p key={el.title} className="modal-row">
+              <p key={el.title} className="modal-row" style={{zIndex: zIndex}}>
                 <label className="modal-prop" htmlFor={el.title + "edit"}>
                   {el.title}
                 </label>
@@ -159,26 +161,6 @@ export const Modal: FC<IModal> = ({
               </p>
             );
           })}
-          {/* { false && actionType === EActionType.create &&
-            columns.map((el) => {
-              if (el.title === "id") return "";
-              if (el.title.endsWith("_id")) return "";
-              return (
-                <p key={el.title}>
-                  <label className="modal-prop" htmlFor={el.title + "create"}>
-                    {el.title}
-                  </label>
-                  :
-                  <input
-                    className="modal-input"
-                    id={el.title + "create"}
-                    value={editObj[el.title as keyof object]}
-                    onChange={(e) => handleChangeInput(e, el.title as keyof object)}
-                    onFocus={(e) => handleFocusInput(e, el.title as keyof object)}
-                  />
-                </p>
-              );
-            })} */}
           <div className="action-btns">
             {actionType !== EActionType.open && (
               <button

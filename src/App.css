@@ -179,6 +179,8 @@ select {
   border: 2px solid var(--main);
   padding: 5px;
   background-color: #eee;
+  max-height: 120px;
+  overflow-y: scroll;
 }
 
 .modal-prop {

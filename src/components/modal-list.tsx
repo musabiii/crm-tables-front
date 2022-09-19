@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { IOption } from "../models/models";
 
 interface IMoldaList {
@@ -8,7 +8,24 @@ interface IMoldaList {
 }
 
 export const ModalList: FC<IMoldaList> = ({ getList, value,clickOption }) => {
-  const { data: optionsData } = getList({ title: value });
+
+    const [boundValue, setBoundValue] = useState(value)
+
+    useEffect(() => {
+
+      let ttime = setTimeout(() => {
+        setBoundValue(value);
+      }, 500);
+
+      return () => {
+        console.log("ttime",ttime);
+        clearTimeout(ttime);
+      }
+    }, [value])
+
+
+
+  const { data: optionsData } = getList({ title: boundValue });
   console.log("optionsData", optionsData);
 
   const options: IOption[] = optionsData as IOption[];
