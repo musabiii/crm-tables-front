@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
-import { EActionType } from "../models/models";
-import ModalList from "./modal-list";
+import { EActionType, IColumn, IOption } from "../models/models";
+import { ModalList } from "./modal-list";
 
 interface IModal {
   setShowModal: Function;
@@ -10,6 +10,7 @@ interface IModal {
   fetchCreate: Function;
   updateData: Function;
   createProps: string[];
+  columns: IColumn[];
 }
 
 export const Modal: FC<IModal> = ({
@@ -20,11 +21,12 @@ export const Modal: FC<IModal> = ({
   updateData,
   createProps,
   fetchCreate,
+  columns,
 }) => {
   const baseObject = actionType === EActionType.create ? {} : obj;
   const [editObj, setEditObj] = useState(baseObject);
   const [disabled, setDisabled] = useState(false);
-  const [focusRow,setFocusRow] = useState<string>("");
+  const [focusRow, setFocusRow] = useState<string>("");
 
   const [fetchUpdateDirect, { isFulfilled, isLoading, data }] = fetchUpdate();
   const [fetchCreateDirect, { data: createData }] = fetchCreate();
@@ -61,13 +63,13 @@ export const Modal: FC<IModal> = ({
   const handleFocusInput = (
     e: React.SyntheticEvent<HTMLInputElement>,
     el: string
-  ) =>{
+  ) => {
+    setFocusRow(el);
     if (el.endsWith("_title")) {
       console.log("focus input");
-      setFocusRow(el);
       console.log(editObj[el as keyof object]);
     }
-  }
+  };
 
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -85,6 +87,19 @@ export const Modal: FC<IModal> = ({
       });
 
       fetchCreateDirect(editObj);
+    }
+  };
+
+  const clickOption = (option:IOption, title:string) => {
+    console.log(title);
+    console.log("option",option);
+    if (title.endsWith('_title')) {
+      const id = title.slice(0,title.length - 5) + "id";
+      let newObj: any = {};
+      newObj[title] = option.text;
+      newObj[id] = option.value;
+      newObj = { ...editObj, ...newObj };
+      setEditObj(newObj);
     }
   };
 
@@ -115,46 +130,55 @@ export const Modal: FC<IModal> = ({
                 </p>
               );
             })}
-          {actionType === EActionType.edit &&
-            Object.keys(editObj).map((el) => {
-              if (el === "id") return "";
-              if (el.endsWith("_id")) return "";
-              return (
-                <p key={el} className="modal-row">
-                  <label className="modal-prop" htmlFor={el + "edit"}>
-                    {el}
-                  </label>
-                  :
-                    <input
-                      className="modal-input"
-                      id={el + "edit"}
-                      value={editObj[el as keyof object]}
-                      onChange={(e) => handleChangeInput(e, el as keyof object)}
-                      onFocus={(e) => handleFocusInput(e, el as keyof object)}
+          {columns.map((el) => {
+            if (el.title.endsWith("id")) return "";
+            return (
+              <p key={el.title} className="modal-row">
+                <label className="modal-prop" htmlFor={el.title + "edit"}>
+                  {el.title}
+                </label>
+                :
+                <input
+                  className="modal-input"
+                  id={el + "edit"}
+                  value={editObj[el.title as keyof object]}
+                  onChange={(e) =>
+                    handleChangeInput(e, el.title as keyof object)
+                  }
+                  onFocus={(e) => handleFocusInput(e, el.title as keyof object)}
+                />
+                {el.title.endsWith("_title") &&
+                  focusRow === el.title &&
+                  el.getOptions && (
+                    <ModalList
+                      clickOption={(option:IOption) => clickOption(option,el.title)}
+                      getList={el.getOptions}
+                      value={editObj[el.title as keyof object]}
                     />
-                {el.endsWith("_title") && focusRow === el && <ModalList/>}
-                </p>
-              );
-            })}
-          {actionType === EActionType.create &&
-            createProps.map((el) => {
-              if (el === "id") return "";
-              if (el.endsWith("_id")) return "";
+                  )}
+              </p>
+            );
+          })}
+          {/* { false && actionType === EActionType.create &&
+            columns.map((el) => {
+              if (el.title === "id") return "";
+              if (el.title.endsWith("_id")) return "";
               return (
-                <p key={el}>
-                  <label className="modal-prop" htmlFor={el + "create"}>
-                    {el}
+                <p key={el.title}>
+                  <label className="modal-prop" htmlFor={el.title + "create"}>
+                    {el.title}
                   </label>
                   :
                   <input
                     className="modal-input"
-                    id={el + "create"}
-                    value={editObj[el as keyof object]}
-                    onChange={(e) => handleChangeInput(e, el as keyof object)}
+                    id={el.title + "create"}
+                    value={editObj[el.title as keyof object]}
+                    onChange={(e) => handleChangeInput(e, el.title as keyof object)}
+                    onFocus={(e) => handleFocusInput(e, el.title as keyof object)}
                   />
                 </p>
               );
-            })}
+            })} */}
           <div className="action-btns">
             {actionType !== EActionType.open && (
               <button

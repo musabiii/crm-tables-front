@@ -173,8 +173,12 @@ select {
 
 .modal-list {
   position: absolute;
-  top: 10px;
-  left: 0;
+  top: 30px;
+  left: 50px;
+  width: 300px;
+  border: 2px solid var(--main);
+  padding: 5px;
+  background-color: #eee;
 }
 
 .modal-prop {

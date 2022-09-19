@@ -205,6 +205,7 @@ export default function DataTable(props: IDataTable): JSX.Element {
           fetchCreate={fetchCreate}
           updateData = {()=>fetchData(fetchOptions())}
           createProps = {columns.map(el => el.title)}
+          columns = {columns}
         />
       )}
 

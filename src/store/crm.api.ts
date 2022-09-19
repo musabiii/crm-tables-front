@@ -6,6 +6,7 @@ export const crmApi = createApi({
   baseQuery: fetchBaseQuery({
     // baseUrl: "http://89.108.98.131:3000/api/",
     baseUrl: "http://localhost:4000/api/",
+    // mode:"no-cors"
   }),
   endpoints: (build) => ({
     getClients: build.query<IClient[], IQuery>({

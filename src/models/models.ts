@@ -69,3 +69,8 @@ export enum EActionType {
   create = 'create'
 }
 
+
+export interface IOption {
+  text:string,
+  value:string
+}

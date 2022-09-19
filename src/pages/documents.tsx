@@ -13,8 +13,8 @@ import {
 
 export default function Documents() {
 
-      const {data:clientOptionsData} = useGetClientOptionsQuery({title:'a'})
-      console.log("clientOptionsData",clientOptionsData);
+      // const {data:clientOptionsData} = useGetClientOptionsQuery({title:'a'})
+      // console.log("clientOptionsData",clientOptionsData);
 
 
   const columnsList: IColumn[] = [
@@ -42,6 +42,7 @@ export default function Documents() {
       title: "client_title",
       visible: true,
       width: 200,
+      getOptions:useGetClientOptionsQuery
     },
     {
       title: "service_title",
