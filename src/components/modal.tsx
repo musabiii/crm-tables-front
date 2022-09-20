@@ -120,17 +120,6 @@ export const Modal: FC<IModal> = ({
             )}
             {actionType === EActionType.create && <span>New record</span>}
           </div>
-          {actionType === EActionType.open &&
-            Object.keys(editObj).map((el) => {
-              if (el === "id") return "";
-              if (el.endsWith("_id")) return "";
-              return (
-                <p key={el}>
-                  <span className="modal-prop">{el}</span>:
-                  {editObj[el as keyof object]}
-                </p>
-              );
-            })}
           {columns.map((el) => {
             if (el.title.endsWith("id")) return "";
             const zIndex = el.title===focusRow?100:0;
@@ -141,6 +130,7 @@ export const Modal: FC<IModal> = ({
                 </label>
                 :
                 <input
+                  disabled = {actionType === EActionType.open}
                   className="modal-input"
                   id={el + "edit"}
                   value={editObj[el.title as keyof object]}

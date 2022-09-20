@@ -48,6 +48,12 @@ export const crmApi = createApi({
         params: query,
       }),
     }),
+    getServiceOptions: build.query<any, {}>({
+      query: (title) => ({
+        url: `/service-options`,
+        params:title
+      }),
+    }),
     updateService: build.query<any, IService>({
       query: (obj) => ({
         url: `/service/${obj.id}`,
@@ -97,6 +103,7 @@ export const {
   useLazyUpdateClientQuery,
   useLazyCreateClientQuery,
   useLazyGetServicesQuery,
+  useGetServiceOptionsQuery,
   useLazyUpdateServiceQuery,
   useLazyCreateServiceQuery,
   useLazyGetDocumentsQuery,

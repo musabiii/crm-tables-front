@@ -4,6 +4,7 @@ import DataTable from "../components/data-table";
 import { IColumn } from "../models/models";
 import {
   useGetClientOptionsQuery,
+  useGetServiceOptionsQuery,
   useLazyCreateDocumentQuery,
   useLazyGetClientOptionsQuery,
   useLazyGetDocumentsQuery,
@@ -15,6 +16,9 @@ export default function Documents() {
 
       // const {data:clientOptionsData} = useGetClientOptionsQuery({title:'a'})
       // console.log("clientOptionsData",clientOptionsData);
+      const {data:serviceOptionsData} = useGetServiceOptionsQuery({title:'M'})
+      console.log("serviceOptionsData",serviceOptionsData);
+      // useGetServiceOptionsQuery
 
 
   const columnsList: IColumn[] = [
@@ -48,6 +52,7 @@ export default function Documents() {
       title: "service_title",
       visible: true,
       width: 200,
+      getOptions:useGetServiceOptionsQuery
     },
   ];
 
