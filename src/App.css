@@ -139,13 +139,8 @@ select {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: #eee;
-  background-color: red;
-  /* background-color:var(--main); */
-  opacity: .5;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  z-index: 0;
+  background-color:rgba(10, 148, 246, .4);
+  z-index: 1;
 }
 
 .columns-visible-box, .modal-box {
@@ -156,7 +151,7 @@ select {
   border: #696969 1px solid;
   padding: 40px;
   cursor: auto;
-  opacity: 2;
+  opacity: 1;
   z-index: 6;
   overflow: hidden;
   top: 25%;
