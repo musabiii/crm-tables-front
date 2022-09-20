@@ -5,28 +5,35 @@ interface ActionsProps {
   handleOpen:Function
   handleEdit:Function
   handleCreate:Function
+  handleDelete:Function
+  selectedRow:number
 }
 
 export const Actions: FC<ActionsProps> = ({
   setShowColumns,
   handleOpen,
   handleEdit,
-  handleCreate
+  handleCreate,
+  handleDelete,
+  selectedRow
 }) => {
 
   return (
     <div className="actions">
-      <div className="open-action action" onClick={()=>handleOpen()}>
+      <div className={`open-action ${selectedRow!==0?"action__active":""} action`} onClick={()=>handleOpen()}>
         open
       </div>
-      <div className="edit-action action" onClick={()=>handleEdit()}>
+      <div className={`edit-action ${selectedRow!==0?"action__active":""} action`} onClick={()=>handleEdit()}>
         edit
       </div>
-      <div className="create-action action" onClick={()=>handleCreate()}>
+      <div className={`delete-action ${selectedRow!==0?"action__active":""} action`} onClick={()=>handleDelete()}>
+        delete
+      </div>
+      <div className="create-action action__active action" onClick={()=>handleCreate()}>
         create
       </div>
 
-      <div className="visible-action action" onClick={()=>setShowColumns(true)}>
+      <div className="visible-action action__active action" onClick={()=>setShowColumns(true)}>
         columns
       </div>
     </div>

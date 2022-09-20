@@ -13,10 +13,12 @@ interface IDataTable {
   changeVisibleColumns: Function;
   fetchUpdate:Function
   fetchCreate:Function
+  fetchDelete:Function
 }
 
 export default function DataTable(props: IDataTable): JSX.Element {
-  const { columns, fetchData, data, changeVisibleColumns,fetchUpdate,fetchCreate } = props;
+
+  const { columns, fetchData, data, changeVisibleColumns,fetchUpdate,fetchCreate,fetchDelete } = props;
 
   const [selectedRow, setSelectedRow] = useState(0);
   const [selectedRowObj, setSelectedRowObj] = useState({});
@@ -44,13 +46,6 @@ export default function DataTable(props: IDataTable): JSX.Element {
       page,
     };
   };
-
-  // const [fetchUpdateDirect,{data:dataRow}] = fetchUpdate()
-
-  // useEffect(() => {
-  //
-  // }, [dataRow])
-
 
   useEffect(() => {
 
@@ -125,6 +120,13 @@ export default function DataTable(props: IDataTable): JSX.Element {
         setShowModal(true);
       };
 
+      const handleDelete = () => {
+        if (selectedRow>0) {
+        setActionType(EActionType.delete);
+        setShowModal(true);
+        }
+      };
+
 
 
   return (
@@ -134,6 +136,8 @@ export default function DataTable(props: IDataTable): JSX.Element {
         handleOpen ={handleOpen}
         handleEdit ={handleEdit}
         handleCreate ={handleCreate}
+        handleDelete ={handleDelete}
+        selectedRow ={selectedRow}
       />
       {/* {showModal && <Modal/>} */}
       <Filter
@@ -203,6 +207,7 @@ export default function DataTable(props: IDataTable): JSX.Element {
           actionType={actionType}
           fetchUpdate={fetchUpdate}
           fetchCreate={fetchCreate}
+          fetchDelete={fetchDelete}
           updateData = {()=>fetchData(fetchOptions())}
           createProps = {columns.map(el => el.title)}
           columns = {columns}

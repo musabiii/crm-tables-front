@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import DataTable from "../components/data-table";
 import { IColumn } from "../models/models";
-import { useLazyCreateClientQuery, useLazyGetClientsQuery, useLazyUpdateClientQuery } from "../store/crm.api";
+import { useLazyCreateClientQuery, useLazyDeleteClientQuery, useLazyGetClientsQuery, useLazyUpdateClientQuery } from "../store/crm.api";
 
 export default function Clients() {
 
@@ -74,6 +74,7 @@ export default function Clients() {
         changeVisibleColumns = {changeVisible}
         fetchUpdate = {useLazyUpdateClientQuery}
         fetchCreate = {useLazyCreateClientQuery}
+        fetchDelete = {useLazyDeleteClientQuery}
       />
     </div>
   );

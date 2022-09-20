@@ -132,6 +132,14 @@ select {
   color: black;
 }
 
+.action__active {
+  color:rgba(10, 148, 246, .8);
+}
+
+.action__active:hover {
+  color:rgb(7, 63, 183);
+}
+
 
 .columns-visible-back, .modal-back {
   position: absolute;
@@ -218,7 +226,11 @@ color: green;
 }
 
 .btn-cancel {
-color: red;
+color: darkkhaki;
+}
+
+.btn-delete {
+  color: red;
 }
 
 .exit-flex {

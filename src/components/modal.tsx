@@ -8,6 +8,7 @@ interface IModal {
   actionType: EActionType;
   fetchUpdate: Function;
   fetchCreate: Function;
+  fetchDelete: Function;
   updateData: Function;
   createProps: string[];
   columns: IColumn[];
@@ -18,6 +19,7 @@ export const Modal: FC<IModal> = ({
   obj,
   actionType,
   fetchUpdate,
+  fetchDelete,
   updateData,
   createProps,
   fetchCreate,
@@ -30,12 +32,9 @@ export const Modal: FC<IModal> = ({
 
   const [fetchUpdateDirect, { isFulfilled, isLoading, data }] = fetchUpdate();
   const [fetchCreateDirect, { data: createData }] = fetchCreate();
+  const [fetchDeleteDirect, { data: deleteData }] = fetchDelete();
 
   useEffect(() => {
-    console.log("datarow");
-    console.log("isLoading", isLoading);
-    console.log("isFulfilled", isFulfilled);
-    // setShowModal(false)
     updateData();
     if (data) {
       setShowModal(false);
@@ -48,6 +47,13 @@ export const Modal: FC<IModal> = ({
       setShowModal(false);
     }
   }, [createData]);
+
+  useEffect(() => {
+    updateData();
+    if (deleteData) {
+      setShowModal(false);
+    }
+  }, [deleteData]);
 
   const handleChangeInput = (
     e: React.SyntheticEvent<HTMLInputElement>,
@@ -87,8 +93,15 @@ export const Modal: FC<IModal> = ({
       });
 
       fetchCreateDirect(editObj);
+    } else if (actionType === EActionType.delete)  {
+      console.log('submit delete')
+      fetchDeleteDirect(editObj["id" as keyof object])
     }
   };
+
+  const handleDelete = () => {
+
+  }
 
   const clickOption = (option:IOption, title:string) => {
     console.log(title);
@@ -120,7 +133,7 @@ export const Modal: FC<IModal> = ({
             )}
             {actionType === EActionType.create && <span>New record</span>}
           </div>
-          {columns.map((el) => {
+          {actionType !== EActionType.delete && columns.map((el) => {
             if (el.title.endsWith("id")) return "";
             const zIndex = el.title===focusRow?100:0;
             return (
@@ -139,6 +152,7 @@ export const Modal: FC<IModal> = ({
                   }
                   onFocus={(e) => handleFocusInput(e, el.title as keyof object)}
                 />
+                 {/* {!editObj[el.title as keyof object]?"fill":""} */}
                 {el.title.endsWith("_title") &&
                   focusRow === el.title &&
                   el.getOptions && (
@@ -161,13 +175,25 @@ export const Modal: FC<IModal> = ({
                 cancel
               </button>
             )}
-            {actionType !== EActionType.open && (
+            {actionType !== EActionType.open &&
+            actionType !== EActionType.delete &&
+            (
               <button
                 type="submit"
                 className="modal-btn btn-save"
                 disabled={disabled}
               >
                 save
+              </button>
+            )}
+            {actionType === EActionType.delete && (
+              <button
+                type="submit"
+                className="modal-btn btn-delete"
+                disabled={disabled}
+                onClick={() => handleDelete()}
+              >
+                delete
               </button>
             )}
           </div>

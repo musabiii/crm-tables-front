@@ -34,6 +34,12 @@ export const crmApi = createApi({
         method: "PUT",
       }),
     }),
+    deleteClient: build.query<any, number>({
+      query: (id) => ({
+        url: `/client/${id}`,
+        method: "DELETE",
+      }),
+    }),
     createClient: build.query<IClient, IClient>({
       query: (obj) => ({
         url: `/client/`,
@@ -61,6 +67,12 @@ export const crmApi = createApi({
         method: "PUT",
       }),
     }),
+    deleteService: build.query<any, number>({
+      query: (id) => ({
+        url: `/service/${id}`,
+        method: "DELETE",
+      }),
+    }),
     createService: build.query<IClient, IService>({
       query: (obj) => ({
         url: `/service/`,
@@ -80,6 +92,12 @@ export const crmApi = createApi({
         url: `/document/${obj.id}`,
         body: obj,
         method: "PUT",
+      }),
+    }),
+    deleteDocument: build.query<any, number>({
+      query: (id) => ({
+        url: `/document/${id}`,
+        method: "DELETE",
       }),
     }),
     createDocument: build.query<IClient, IDocument>({
@@ -102,11 +120,14 @@ export const {
   useUpdateClientQuery,
   useLazyUpdateClientQuery,
   useLazyCreateClientQuery,
+  useLazyDeleteClientQuery,
   useLazyGetServicesQuery,
   useGetServiceOptionsQuery,
   useLazyUpdateServiceQuery,
+  useLazyDeleteServiceQuery,
   useLazyCreateServiceQuery,
   useLazyGetDocumentsQuery,
   useLazyCreateDocumentQuery,
   useLazyUpdateDocumentQuery,
+  useLazyDeleteDocumentQuery
 } = crmApi;

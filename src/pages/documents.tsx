@@ -6,6 +6,7 @@ import {
   useGetClientOptionsQuery,
   useGetServiceOptionsQuery,
   useLazyCreateDocumentQuery,
+  useLazyDeleteDocumentQuery,
   useLazyGetClientOptionsQuery,
   useLazyGetDocumentsQuery,
   useLazyGetServicesQuery,
@@ -87,6 +88,7 @@ export default function Documents() {
         changeVisibleColumns={changeVisible}
         fetchUpdate={useLazyUpdateDocumentQuery}
         fetchCreate={useLazyCreateDocumentQuery}
+        fetchDelete = {useLazyDeleteDocumentQuery}
       />
     </div>
   );

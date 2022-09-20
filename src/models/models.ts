@@ -66,7 +66,8 @@ export enum ECompare {
 export enum EActionType {
   open='open',
   edit = 'edit',
-  create = 'create'
+  create = 'create',
+  delete = 'delete'
 }
 
 
