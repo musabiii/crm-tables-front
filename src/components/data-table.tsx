@@ -11,14 +11,21 @@ interface IDataTable {
   fetchData: Function;
   data: any[];
   changeVisibleColumns: Function;
-  fetchUpdate:Function
-  fetchCreate:Function
-  fetchDelete:Function
+  fetchUpdate: Function;
+  fetchCreate: Function;
+  fetchDelete: Function;
 }
 
 export default function DataTable(props: IDataTable): JSX.Element {
-
-  const { columns, fetchData, data, changeVisibleColumns,fetchUpdate,fetchCreate,fetchDelete } = props;
+  const {
+    columns,
+    fetchData,
+    data,
+    changeVisibleColumns,
+    fetchUpdate,
+    fetchCreate,
+    fetchDelete,
+  } = props;
 
   const [selectedRow, setSelectedRow] = useState(0);
   const [selectedRowObj, setSelectedRowObj] = useState({});
@@ -35,7 +42,6 @@ export default function DataTable(props: IDataTable): JSX.Element {
 
   const [actionType, setActionType] = useState<EActionType>(EActionType.open);
 
-
   const fetchOptions = () => {
     return {
       sortCol,
@@ -48,7 +54,6 @@ export default function DataTable(props: IDataTable): JSX.Element {
   };
 
   useEffect(() => {
-
     fetchData(fetchOptions());
     setSelectedRow(0);
   }, [sortCol, order, filterCol, filterCompare, filterValue, page]);
@@ -77,8 +82,6 @@ export default function DataTable(props: IDataTable): JSX.Element {
     e: React.MouseEvent<HTMLTableRowElement>,
     id: number
   ) => {
-
-
     const selectObj = data.find((el) => el.id === id);
 
     if (e.detail === 2) {
@@ -100,44 +103,41 @@ export default function DataTable(props: IDataTable): JSX.Element {
     }
   };
 
+  const handleOpen = () => {
+    if (selectedRow > 0) {
+      setActionType(EActionType.open);
+      setShowModal(true);
+    }
+  };
 
-      const handleOpen = () => {
-        if (selectedRow>0) {
-          setActionType(EActionType.open);
-          setShowModal(true);
-        }
-      };
+  const handleEdit = () => {
+    if (selectedRow > 0) {
+      setActionType(EActionType.edit);
+      setShowModal(true);
+    }
+  };
 
-      const handleEdit = () => {
-        if (selectedRow>0) {
-          setActionType(EActionType.edit);
-          setShowModal(true);
-        }
-      };
+  const handleCreate = () => {
+    setActionType(EActionType.create);
+    setShowModal(true);
+  };
 
-      const handleCreate = () => {
-        setActionType(EActionType.create);
-        setShowModal(true);
-      };
-
-      const handleDelete = () => {
-        if (selectedRow>0) {
-        setActionType(EActionType.delete);
-        setShowModal(true);
-        }
-      };
-
-
+  const handleDelete = () => {
+    if (selectedRow > 0) {
+      setActionType(EActionType.delete);
+      setShowModal(true);
+    }
+  };
 
   return (
     <div>
       <Actions
-        setShowColumns = {setShowColumns}
-        handleOpen ={handleOpen}
-        handleEdit ={handleEdit}
-        handleCreate ={handleCreate}
-        handleDelete ={handleDelete}
-        selectedRow ={selectedRow}
+        setShowColumns={setShowColumns}
+        handleOpen={handleOpen}
+        handleEdit={handleEdit}
+        handleCreate={handleCreate}
+        handleDelete={handleDelete}
+        selectedRow={selectedRow}
       />
       {/* {showModal && <Modal/>} */}
       <Filter
@@ -160,7 +160,7 @@ export default function DataTable(props: IDataTable): JSX.Element {
                     <th
                       onClick={() => handleSetSort(col.title)}
                       key={col.title}
-                      style={{width:col.width,maxWidth:col.width}}
+                      style={{ width: col.width, maxWidth: col.width }}
                     >
                       {col.title}
                       <SortBlock sortType={sortType(col.title)} />
@@ -181,7 +181,11 @@ export default function DataTable(props: IDataTable): JSX.Element {
                 >
                   {columns.map((col) => {
                     return (
-                      col.visible && <td   style={{width:col.width}} key={col.title}>{row[col.title]}</td>
+                      col.visible && (
+                        <td style={{ width: col.width }} key={col.title}>
+                          {row[col.title]}
+                        </td>
+                      )
                     );
                   })}
                 </tr>
@@ -199,7 +203,6 @@ export default function DataTable(props: IDataTable): JSX.Element {
         />
       )}
 
-
       {showModal && (
         <Modal
           setShowModal={setShowModal}
@@ -208,9 +211,9 @@ export default function DataTable(props: IDataTable): JSX.Element {
           fetchUpdate={fetchUpdate}
           fetchCreate={fetchCreate}
           fetchDelete={fetchDelete}
-          updateData = {()=>fetchData(fetchOptions())}
-          createProps = {columns.map(el => el.title)}
-          columns = {columns}
+          updateData={() => fetchData(fetchOptions())}
+          createProps={columns.map((el) => el.title)}
+          columns={columns}
         />
       )}
 
