@@ -4,7 +4,8 @@ import { IClient, IDocument, IQuery, IService } from "../models/models";
 export const crmApi = createApi({
   reducerPath: "crm/api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://213.226.126.113:3000/api/",
+    baseUrl: "https://crm-tables.ru/api/",
+    // baseUrl: "http://213.226.126.113:3000/api/",
     // baseUrl: "http://localhost:4000/api/",
     // mode:"no-cors"
   }),
