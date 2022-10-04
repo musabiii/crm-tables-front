@@ -26,6 +26,7 @@ export const Filter: FC<FilterProps> = ({
     if (e.currentTarget.value === 'id' && filterCompare === 'like') {
       setFilterCompare('=')
     }
+
     setFilterCol(e.currentTarget.value);
   };
 

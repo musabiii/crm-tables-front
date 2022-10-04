@@ -32,8 +32,8 @@ export default function DataTable(props: IDataTable): JSX.Element {
 
   const [sortCol, setSortCol] = useState("id");
   const [order, setOrder] = useState<EOrder>(EOrder.asc);
-  const [filterCol, setFilterCol] = useState("title");
-  const [filterCompare, setFilterCompare] = useState("like");
+  const [filterCol, setFilterCol] = useState("id");
+  const [filterCompare, setFilterCompare] = useState("=");
   const [filterValue, setFilterValue] = useState("");
   const [page, setPage] = useState<number>(1);
   const [showModal, setShowModal] = useState(false);
