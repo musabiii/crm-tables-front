@@ -34,7 +34,7 @@ export const Pagination: FC<PaginationProps> = ({
           next
         </div>
       </div>
-      <div className="pagination-infinoty">
+      {/* <div className="pagination-infinoty">
         <input
           checked={infinityScroll}
           onChange={() => handleChangeInfinityScroll()}
@@ -43,7 +43,7 @@ export const Pagination: FC<PaginationProps> = ({
           id="scroll"
         />
         <label htmlFor="scroll">infinity</label>
-      </div>
+      </div> */}
     </div>
   );
 };
