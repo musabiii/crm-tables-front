@@ -7,7 +7,7 @@ import "./index.css";
 import { store } from "./store";
 import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
 import { crmApi } from "./store/crm.api";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import Clients from "./pages/clients";
 import Services from "./pages/services";
 import Documents from "./pages/documents";
@@ -18,14 +18,14 @@ const root = createRoot(container);
 root.render(
   // <Provider store={store}>
   <ApiProvider api={crmApi}>
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/clients" element={<Clients />} />
         <Route path="/services" element={<Services />} />
         <Route path="/documents" element={<Documents />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   </ApiProvider>
   // </Provider>
 );
