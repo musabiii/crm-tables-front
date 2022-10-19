@@ -21,4 +21,4 @@ each page have actions to full control of table:
 - searching
 - ordering
 - pagination
-- adjust view of columns
+- adjust visible of columns
